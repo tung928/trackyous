@@ -442,6 +442,13 @@ function generateDynamicPackage(trackingId) {
 
 // 4. Initialize Application
 window.addEventListener("DOMContentLoaded", () => {
+  if (typeof applyTranslations === "function") {
+    applyTranslations();
+  }
+  if (typeof updateLangDropdownUI === "function") {
+    updateLangDropdownUI();
+  }
+
   // Load default demo package
   loadPreset("TRK-892341");
 
@@ -470,10 +477,16 @@ function loadPreset(trackingNumber) {
   const pkg = PACKAGES_DB[trackingNumber];
   if (pkg) {
     currentPackage = JSON.parse(JSON.stringify(pkg)); // Deep clone
+    if (typeof applyLocalizationToCurrentPackage === "function") {
+      applyLocalizationToCurrentPackage();
+    }
     document.getElementById("trackingInput").value = trackingNumber;
     document.getElementById("clearBtn").classList.remove("hidden");
     renderDashboard(currentPackage);
-    showToast(`Loaded scenario: ${pkg.statusTitle}`);
+    const toastMsg = (typeof currentLang !== "undefined" && currentLang === "zh-TW")
+      ? `已載入情境：${currentPackage.statusTitle}`
+      : `Loaded scenario: ${currentPackage.statusTitle}`;
+    showToast(toastMsg);
   }
 }
 
@@ -490,13 +503,19 @@ function handleTrack(event) {
   const upperInput = input.toUpperCase();
   if (PACKAGES_DB[upperInput]) {
     currentPackage = JSON.parse(JSON.stringify(PACKAGES_DB[upperInput]));
+    if (typeof applyLocalizationToCurrentPackage === "function") {
+      applyLocalizationToCurrentPackage();
+    }
   } else {
     // Generate realistic dynamic record for custom tracking ID
     currentPackage = generateDynamicPackage(upperInput);
   }
 
   renderDashboard(currentPackage);
-  showToast(`Tracking ${currentPackage.trackingNumber}`);
+  const trackMsg = (typeof currentLang !== "undefined" && currentLang === "zh-TW")
+    ? `正在追蹤單號：${currentPackage.trackingNumber}`
+    : `Tracking ${currentPackage.trackingNumber}`;
+  showToast(trackMsg);
 
   // Scroll smoothly to tracking details
   const section = document.getElementById("trackingSection");
@@ -601,9 +620,16 @@ function renderStepper(steps) {
 // 8. Courier / Proof Card Renderer
 function renderCourierCard(pkg, savedNote) {
   const driverCard = document.getElementById("driverOrProofCard");
+  const isZh = (typeof currentLang !== "undefined" && currentLang === "zh-TW");
 
   if (pkg.status === "delivered") {
-    // Show proof of delivery snippet
+    const verifiedTitle = isZh ? "已送達且經數位驗證" : "Delivered & Digitally Verified";
+    const proofBadge = isZh ? "憑證已建檔" : "Proof on file";
+    const deliveredByText = isZh 
+      ? `由專屬外送員 ${pkg.courier.name} 親自送達 • 免接觸門廊交付`
+      : `Delivered by driver ${pkg.courier.name} • Contactless Porch Drop`;
+    const btnPhotoText = isZh ? "查看送達照片證明" : "View Delivery Photo Proof";
+
     driverCard.innerHTML = `
       <div class="flex items-center gap-3">
         <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xl">
@@ -611,19 +637,24 @@ function renderCourierCard(pkg, savedNote) {
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <span class="font-bold text-slate-900 text-sm sm:text-base">Delivered & Digitally Verified</span>
-            <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">Proof on file</span>
+            <span class="font-bold text-slate-900 text-sm sm:text-base">${verifiedTitle}</span>
+            <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">${proofBadge}</span>
           </div>
-          <p class="text-xs text-slate-500">Delivered by driver ${pkg.courier.name} • Contactless Porch Drop</p>
+          <p class="text-xs text-slate-500">${deliveredByText}</p>
         </div>
       </div>
       <button onclick="openProofModal()" class="px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 font-semibold text-xs flex items-center gap-1.5 shadow transition">
         <i data-lucide="image" class="w-4 h-4"></i>
-        <span>View Delivery Photo Proof</span>
+        <span>${btnPhotoText}</span>
       </button>
     `;
   } else {
-    // Show courier driver details
+    const notePrefix = isZh ? "📌 司機備註：" : "📌 Note for driver:";
+    const btnNoteText = savedNote 
+      ? (isZh ? "編輯備註" : "Edit Note") 
+      : (isZh ? "配送備註" : "Delivery Note");
+    const btnCallText = isZh ? "聯絡司機" : "Call Courier";
+
     driverCard.innerHTML = `
       <div class="flex items-center gap-3">
         <img src="${pkg.courier.avatar}" alt="Courier Driver" class="w-12 h-12 rounded-full object-cover border-2 border-white shadow">
@@ -634,18 +665,18 @@ function renderCourierCard(pkg, savedNote) {
           </div>
           <p class="text-xs text-slate-500">${pkg.courier.role}</p>
           <p class="text-[11px] text-slate-400">${pkg.courier.vehicle}</p>
-          ${savedNote ? `<p class="text-[11px] text-blue-600 font-medium mt-1">📌 Note for driver: "${savedNote}"</p>` : ''}
+          ${savedNote ? `<p class="text-[11px] text-blue-600 font-medium mt-1">${notePrefix} "${savedNote}"</p>` : ''}
         </div>
       </div>
 
       <div class="flex items-center gap-2 w-full sm:w-auto">
         <button onclick="openModal('instructionsModal')" class="flex-1 sm:flex-none px-3 py-2 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 font-semibold text-xs flex items-center justify-center gap-1.5 transition">
           <i data-lucide="message-square" class="w-3.5 h-3.5 text-slate-500"></i>
-          <span>${savedNote ? 'Edit Note' : 'Delivery Note'}</span>
+          <span>${btnNoteText}</span>
         </button>
         <button onclick="openModal('callDriverModal')" class="flex-1 sm:flex-none px-3 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 font-semibold text-xs flex items-center justify-center gap-1.5 transition shadow-sm">
           <i data-lucide="phone-call" class="w-3.5 h-3.5"></i>
-          <span>Call Courier</span>
+          <span>${btnCallText}</span>
         </button>
       </div>
     `;
@@ -655,7 +686,10 @@ function renderCourierCard(pkg, savedNote) {
 // 9. Activity Timeline Renderer
 function renderTimeline(timeline) {
   const container = document.getElementById("timelineContainer");
-  document.getElementById("eventsCount").innerText = `${timeline.length} checkpoints`;
+  const isZh = (typeof currentLang !== "undefined" && currentLang === "zh-TW");
+  document.getElementById("eventsCount").innerText = isZh 
+    ? `${timeline.length} 個節點` 
+    : `${timeline.length} checkpoints`;
 
   let html = "";
   timeline.forEach((item, index) => {
@@ -690,6 +724,7 @@ function initOrUpdateMap(pkg) {
   const originCoords = pkg.origin.coords;
   const destCoords = pkg.destination.coords;
   const courierCoords = pkg.currentCourierPos || originCoords;
+  const isZh = (typeof currentLang !== "undefined" && currentLang === "zh-TW");
 
   // Initialize map if not yet created
   if (!leafletMap) {
@@ -737,14 +772,19 @@ function initOrUpdateMap(pkg) {
   });
 
   // Create markers
+  const originLabel = isZh ? "出發地：" : "Origin:";
+  const destLabel = isZh ? "目的地：" : "Destination:";
+  const courierLabel = isZh ? "專屬外送員：" : "Courier:";
+  const enRouteLabel = isZh ? "目前配送路徑中" : "Currently En Route";
+
   const mOrigin = L.marker(originCoords, { icon: originIcon }).addTo(leafletMap);
-  mOrigin.bindPopup(`<b>Origin:</b> ${pkg.origin.name}<br>${pkg.origin.hub}`);
+  mOrigin.bindPopup(`<b>${originLabel}</b> ${pkg.origin.name}<br>${pkg.origin.hub}`);
 
   const mDest = L.marker(destCoords, { icon: destIcon }).addTo(leafletMap);
-  mDest.bindPopup(`<b>Destination:</b> ${pkg.destination.name}<br>${pkg.destination.address}`);
+  mDest.bindPopup(`<b>${destLabel}</b> ${pkg.destination.name}<br>${pkg.destination.address}`);
 
   courierMarker = L.marker(courierCoords, { icon: vanIcon }).addTo(leafletMap);
-  courierMarker.bindPopup(`<b>Courier:</b> ${pkg.courier.name}<br>Currently En Route`);
+  courierMarker.bindPopup(`<b>${courierLabel}</b> ${pkg.courier.name}<br>${enRouteLabel}`);
 
   mapMarkers.push(mOrigin, mDest);
 
@@ -762,36 +802,48 @@ function initOrUpdateMap(pkg) {
   leafletMap.fitBounds(bounds, { padding: [50, 50] });
 
   // Update overlay info
-  document.getElementById("currentStopName").innerText = pkg.status === "delivered" 
-    ? "Delivered at Destination" 
-    : `${pkg.destination.name} Sector`;
-  document.getElementById("stopsRemaining").innerText = pkg.status === "delivered"
-    ? "Completed"
-    : `${pkg.stopsRemaining} stops remaining`;
+  if (isZh) {
+    document.getElementById("currentStopName").innerText = pkg.status === "delivered" 
+      ? "已送達目的地" 
+      : `${pkg.destination.name} 責任區`;
+    document.getElementById("stopsRemaining").innerText = pkg.status === "delivered"
+      ? "已送達完成"
+      : `${pkg.stopsRemaining} 站後抵達`;
+  } else {
+    document.getElementById("currentStopName").innerText = pkg.status === "delivered" 
+      ? "Delivered at Destination" 
+      : `${pkg.destination.name} Sector`;
+    document.getElementById("stopsRemaining").innerText = pkg.status === "delivered"
+      ? "Completed"
+      : `${pkg.stopsRemaining} stops remaining`;
+  }
 }
 
 function resetMapView() {
   if (leafletMap && currentPackage) {
     const routePoints = [currentPackage.origin.coords, currentPackage.currentCourierPos, currentPackage.destination.coords];
     leafletMap.fitBounds(L.latLngBounds(routePoints), { padding: [50, 50] });
-    showToast("Map view centered");
+    const isZh = (typeof currentLang !== "undefined" && currentLang === "zh-TW");
+    showToast(isZh ? "地圖視角已置中" : "Map view centered");
   }
 }
 
 // 11. Live Courier Movement Simulation
 function toggleSimulation() {
   const badge = document.getElementById("simStatusBadge");
+  const isZh = (typeof currentLang !== "undefined" && currentLang === "zh-TW");
+
   if (isSimulating) {
     clearInterval(simulationInterval);
     isSimulating = false;
-    badge.innerText = "OFF";
+    badge.innerText = isZh ? "關閉" : "OFF";
     badge.className = "font-bold text-amber-400";
-    showToast("Live simulation paused");
+    showToast(isZh ? "已暫停外送員模擬" : "Live simulation paused");
   } else {
     isSimulating = true;
-    badge.innerText = "LIVE (Active)";
+    badge.innerText = isZh ? "運行中 (即時)" : "LIVE (Active)";
     badge.className = "font-bold text-emerald-400 animate-pulse";
-    showToast("Live simulation started: Driver GPS updating every 3s");
+    showToast(isZh ? "模擬啟動：外送員 GPS 每 3 秒更新一次" : "Live simulation started: Driver GPS updating every 3s");
 
     simulationInterval = setInterval(() => {
       simulateStep();
@@ -801,9 +853,10 @@ function toggleSimulation() {
 
 function simulateStep() {
   if (!currentPackage || !courierMarker || !leafletMap) return;
+  const isZh = (typeof currentLang !== "undefined" && currentLang === "zh-TW");
 
   if (currentPackage.status === "delivered") {
-    showToast("Package has already been delivered!");
+    showToast(isZh ? "包裹已送達完成！" : "Package has already been delivered!");
     toggleSimulation();
     return;
   }
@@ -821,32 +874,37 @@ function simulateStep() {
   // Decrease stops if > 1
   if (currentPackage.stopsRemaining > 1) {
     currentPackage.stopsRemaining--;
-    document.getElementById("stopsRemaining").innerText = `${currentPackage.stopsRemaining} stops away`;
-    showToast(`Driver GPS ping: Now ${currentPackage.stopsRemaining} stops away`);
+    const stopText = isZh 
+      ? `${currentPackage.stopsRemaining} 站後抵達` 
+      : `${currentPackage.stopsRemaining} stops away`;
+    document.getElementById("stopsRemaining").innerText = stopText;
+    showToast(isZh ? `GPS 訊號回傳：倒數 ${currentPackage.stopsRemaining} 站` : `Driver GPS ping: Now ${currentPackage.stopsRemaining} stops away`);
   } else if (currentPackage.stopsRemaining === 1) {
     // Deliver!
     currentPackage.stopsRemaining = 0;
     currentPackage.status = "delivered";
-    currentPackage.statusTitle = "Delivered (Live Just Now)";
-    currentPackage.statusDescription = "Package has just arrived at destination address. Driver handed parcel over.";
-    currentPackage.estimatedDate = "Delivered Today";
-    currentPackage.estimatedWindow = "Delivered Just Now";
+    currentPackage.statusTitle = isZh ? "已送達 (剛才)" : "Delivered (Live Just Now)";
+    currentPackage.statusDescription = isZh 
+      ? "包裹剛剛已送達目的地地址。外送員已親手交付收件人。" 
+      : "Package has just arrived at destination address. Driver handed parcel over.";
+    currentPackage.estimatedDate = isZh ? "今日已送達" : "Delivered Today";
+    currentPackage.estimatedWindow = isZh ? "剛才送達" : "Delivered Just Now";
 
     // Update steps
     currentPackage.steps.forEach(s => s.state = "completed");
 
     // Prepend new timeline item
     currentPackage.timeline.unshift({
-      time: "Just now",
+      time: isZh ? "剛才" : "Just now",
       location: currentPackage.destination.name,
-      title: "Package Delivered & Completed",
-      detail: "Handed over by courier. Live GPS confirmed at destination doorstep.",
+      title: isZh ? "包裹已簽收送達完成" : "Package Delivered & Completed",
+      detail: isZh ? "由外送員親手交付。門前 GPS 定位確認無誤。" : "Handed over by courier. Live GPS confirmed at destination doorstep.",
       icon: "check-circle",
       color: "emerald"
     });
 
     renderDashboard(currentPackage);
-    showToast("🎉 Package has arrived! Status: DELIVERED");
+    showToast(isZh ? "🎉 包裹已送達目的地！狀態：已完成簽收" : "🎉 Package has arrived! Status: DELIVERED");
     toggleSimulation();
   }
 }
