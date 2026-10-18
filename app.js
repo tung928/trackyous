@@ -449,8 +449,29 @@ window.addEventListener("DOMContentLoaded", () => {
     updateLangDropdownUI();
   }
 
-  // Load default demo package
-  loadPreset("TRK-892341");
+  // Check URL parameter e.g. ?track=TRK-892341
+  const urlParams = new URLSearchParams(window.location.search);
+  const trackParam = urlParams.get('track');
+  if (trackParam) {
+    loadPreset(trackParam);
+  } else {
+    // Load default demo package
+    loadPreset("TRK-892341");
+  }
+
+  // Real-time synchronization when updated by driver.html in another tab
+  window.addEventListener('storage', (e) => {
+    if (e.key && e.key.startsWith('trackyours_pkg_') && currentPackage) {
+      const updatedNum = e.key.replace('trackyours_pkg_', '');
+      if (currentPackage.trackingNumber.toUpperCase() === updatedNum.toUpperCase()) {
+        loadPreset(updatedNum);
+        const alertMsg = (typeof currentLang !== "undefined" && currentLang === "zh-TW")
+          ? "🔔 收到外送員/站所端最新動態更新！"
+          : "🔔 Live update received from courier/station terminal!";
+        showToast(alertMsg);
+      }
+    }
+  });
 
   // Input listener for clear button
   const inputEl = document.getElementById("trackingInput");
@@ -472,15 +493,36 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// Helper to get package from localStorage or presets
+function getPackageData(trackingNumber) {
+  const cleanId = trackingNumber.toUpperCase().trim();
+  const stored = localStorage.getItem(`trackyours_pkg_${cleanId}`);
+  if (stored) {
+    try {
+      return JSON.parse(stored);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  if (PACKAGES_DB[cleanId]) {
+    return JSON.parse(JSON.stringify(PACKAGES_DB[cleanId]));
+  }
+  return generateDynamicPackage(cleanId);
+}
+
 // 5. Presets & Tracking Action Handler
 function loadPreset(trackingNumber) {
-  const pkg = PACKAGES_DB[trackingNumber];
+  const cleanId = trackingNumber.toUpperCase().trim();
+  const pkg = getPackageData(cleanId);
   if (pkg) {
-    currentPackage = JSON.parse(JSON.stringify(pkg)); // Deep clone
-    if (typeof applyLocalizationToCurrentPackage === "function") {
-      applyLocalizationToCurrentPackage();
+    currentPackage = pkg;
+    // Apply Chinese localization overlay only if not custom updated
+    if (!localStorage.getItem(`trackyours_pkg_${cleanId}`)) {
+      if (typeof applyLocalizationToCurrentPackage === "function") {
+        applyLocalizationToCurrentPackage();
+      }
     }
-    document.getElementById("trackingInput").value = trackingNumber;
+    document.getElementById("trackingInput").value = cleanId;
     document.getElementById("clearBtn").classList.remove("hidden");
     renderDashboard(currentPackage);
     const toastMsg = (typeof currentLang !== "undefined" && currentLang === "zh-TW")
@@ -501,14 +543,12 @@ function handleTrack(event) {
   if (!input) return;
 
   const upperInput = input.toUpperCase();
-  if (PACKAGES_DB[upperInput]) {
-    currentPackage = JSON.parse(JSON.stringify(PACKAGES_DB[upperInput]));
+  currentPackage = getPackageData(upperInput);
+
+  if (!localStorage.getItem(`trackyours_pkg_${upperInput}`)) {
     if (typeof applyLocalizationToCurrentPackage === "function") {
       applyLocalizationToCurrentPackage();
     }
-  } else {
-    // Generate realistic dynamic record for custom tracking ID
-    currentPackage = generateDynamicPackage(upperInput);
   }
 
   renderDashboard(currentPackage);
@@ -928,8 +968,26 @@ function closeModal(modalId) {
 
 function openProofModal() {
   openModal('proofModal');
-  if (currentPackage && currentPackage.courier) {
-    document.getElementById("proofAgent").innerText = `${currentPackage.courier.name} (Verified)`;
+  if (currentPackage) {
+    if (currentPackage.proof) {
+      if (currentPackage.proof.photo) {
+        document.getElementById("proofPhotoImg").src = currentPackage.proof.photo;
+      }
+      if (currentPackage.proof.receivedBy) {
+        document.getElementById("proofReceivedBy").innerText = currentPackage.proof.receivedBy;
+      }
+      if (currentPackage.proof.deliveredAt) {
+        document.getElementById("proofDeliveredAt").innerText = currentPackage.proof.deliveredAt;
+      }
+      if (currentPackage.proof.signatureType) {
+        document.getElementById("proofSignature").innerText = currentPackage.proof.signatureType;
+      }
+    } else if (currentPackage.proofPhoto) {
+      document.getElementById("proofPhotoImg").src = currentPackage.proofPhoto;
+    }
+    if (currentPackage.courier) {
+      document.getElementById("proofAgent").innerText = `${currentPackage.courier.name} (Verified)`;
+    }
   }
 }
 

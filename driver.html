@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrackYourS | Driver & Staff Dispatch Terminal 外送員與站所工作站</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-500 selection:text-white">
+
+  <!-- TOP STATUS BAR -->
+  <div class="bg-black/40 text-xs px-4 py-2 border-b border-slate-800 flex justify-between items-center text-slate-400">
+    <div class="flex items-center space-x-3">
+      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span>
+        <span id="terminalStatusText">Field Terminal Online (連線正常)</span>
+      </span>
+      <span class="hidden sm:inline">| GPS: <strong class="text-slate-300">47.6062° N, 122.3321° W</strong> (Accurate ±3m)</span>
+    </div>
+    <div class="flex items-center space-x-4">
+      <span id="liveClock" class="font-mono text-slate-300 font-semibold">14:05:22</span>
+      <span class="text-slate-600">|</span>
+      <span>Battery: <strong class="text-emerald-400">94%</strong> ⚡</span>
+    </div>
+  </div>
+
+  <!-- HEADER NAVIGATION -->
+  <header class="bg-slate-800/90 border-b border-slate-700/80 sticky top-0 z-30 shadow-md backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="window.location.href='index.html'">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/30">
+          <i data-lucide="shield-check" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-lg sm:text-xl font-bold tracking-tight text-white">Track<span class="text-blue-400">YourS</span></span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-400/30 uppercase tracking-wider">Staff / Driver</span>
+          </div>
+          <span class="text-[11px] block font-medium text-slate-400 -mt-0.5" id="headerSubtitle">外送員與物流站所更新終端</span>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- Language Switcher -->
+        <div class="relative">
+          <button id="langDropdownBtn" onclick="toggleLangMenu()" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold rounded-lg text-slate-200 bg-slate-700/80 hover:bg-slate-700 border border-slate-600 transition">
+            <i data-lucide="globe" class="w-3.5 h-3.5 text-blue-400"></i>
+            <span id="currentLangLabel">繁體中文</span>
+            <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400"></i>
+          </button>
+          <div id="langMenu" class="hidden absolute right-0 mt-1.5 w-32 bg-slate-800 rounded-xl shadow-xl border border-slate-700 py-1.5 z-50 text-xs">
+            <button onclick="setLanguage('zh-TW')" class="w-full text-left px-3 py-2 hover:bg-slate-700 hover:text-blue-400 flex items-center justify-between font-medium">
+              <span>繁體中文</span>
+              <span id="check-zh" class="text-blue-400 font-bold">✓</span>
+            </button>
+            <button onclick="setLanguage('en')" class="w-full text-left px-3 py-2 hover:bg-slate-700 hover:text-blue-400 flex items-center justify-between font-medium">
+              <span>English</span>
+              <span id="check-en" class="text-blue-400 font-bold hidden">✓</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Back to Customer View -->
+        <a href="index.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-200 bg-slate-700 hover:bg-slate-600 transition border border-slate-600">
+          <i data-lucide="external-link" class="w-3.5 h-3.5 text-blue-400"></i>
+          <span class="hidden sm:inline" id="btnCustomerViewText">查看客戶追蹤頁</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-grow max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+
+    <!-- TERMINAL OPERATOR PROFILE BAR -->
+    <div class="bg-slate-800/80 rounded-2xl p-4 sm:p-5 border border-slate-700/80 shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80" alt="Staff Avatar" class="w-12 h-12 rounded-full object-cover border-2 border-blue-500 shadow">
+          <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-slate-800"></span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-white text-base">Alex Mercer</span>
+            <span class="text-xs bg-blue-500/20 text-blue-300 font-bold px-2 py-0.5 rounded border border-blue-400/30">ID: 8812</span>
+          </div>
+          <p class="text-xs text-slate-400" id="driverProfileRole">DHL 專屬外送領班 • 奔馳 Sprinter (車號 #412)</p>
+        </div>
+      </div>
+
+      <!-- MODE TOGGLE BUTTONS -->
+      <div class="flex bg-slate-900/80 p-1 rounded-xl border border-slate-700 text-xs font-semibold w-full sm:w-auto">
+        <button id="modeCourierBtn" onclick="switchTerminalMode('courier')" class="flex-1 sm:flex-none px-4 py-2 rounded-lg bg-blue-600 text-white flex items-center justify-center gap-1.5 transition shadow">
+          <i data-lucide="truck" class="w-3.5 h-3.5"></i>
+          <span id="tabCourierModeText">末端外送專員模式</span>
+        </button>
+        <button id="modeHubBtn" onclick="switchTerminalMode('hub')" class="flex-1 sm:flex-none px-4 py-2 rounded-lg text-slate-400 hover:text-white flex items-center justify-center gap-1.5 transition">
+          <i data-lucide="building-2" class="w-3.5 h-3.5"></i>
+          <span id="tabHubModeText">分揀轉運站模式</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- PACKAGE SELECTOR & BARCODE SCANNER SECTION -->
+    <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 shadow-xl">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <i data-lucide="scan-barcode" class="w-5 h-5 text-blue-400"></i>
+            <span id="scanSectionTitle">選擇或掃描包裹單號</span>
+          </h2>
+          <p class="text-xs text-slate-400 mt-0.5" id="scanSectionSub">可從現有任務清單選擇，或模擬手持光學條碼機掃描</p>
+        </div>
+
+        <button onclick="simulateBarcodeScan()" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 active:scale-95 transition">
+          <i data-lucide="camera" class="w-4 h-4"></i>
+          <span id="btnSimulateScan">模擬光學條碼掃描</span>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+        <!-- Quick Select Dropdown -->
+        <div class="sm:col-span-8">
+          <label class="block text-xs font-semibold text-slate-400 mb-1" id="lblSelectPackage">選擇當前執勤包裹</label>
+          <select id="packageSelect" onchange="onPackageSelectChange()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-3 text-sm text-white font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            <option value="TRK-892341">TRK-892341 — DHL Express (西雅圖 派送中 / Alex Mercer)</option>
+            <option value="DHL-492104">DHL-492104 — DHL Air Global (東京 ➔ 洛杉磯 航空跨洋運送)</option>
+            <option value="FDX-771920">FDX-771920 — FedEx 2Day (紐約 已送達簽收)</option>
+            <option value="UPS-339218">UPS-339218 — UPS Ground (丹佛 ➔ 芝加哥 暴雪延誤)</option>
+            <option value="USPS-110293">USPS-110293 — USPS Priority (邁阿密 商家出貨預報)</option>
+          </select>
+        </div>
+
+        <!-- Custom tracking code input -->
+        <div class="sm:col-span-4">
+          <label class="block text-xs font-semibold text-slate-400 mb-1" id="lblCustomCode">或手動輸入追蹤單號</label>
+          <div class="flex gap-2">
+            <input type="text" id="customTrackingInput" placeholder="例如: TRK-99001" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-3 text-sm text-white placeholder-slate-500 font-mono uppercase focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            <button onclick="loadCustomPackage()" class="px-4 py-3 bg-slate-700 hover:bg-slate-600 rounded-xl font-bold text-xs text-white transition">
+              載入
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVE PACKAGE SNAPSHOT CARD -->
+      <div id="activePackageSnapshot" class="mt-5 p-4 rounded-xl bg-slate-900/90 border border-slate-700/80 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span id="snapCarrier" class="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-500/20 text-blue-300 border border-blue-400/30">DHL Express</span>
+            <span class="font-mono font-bold text-white text-sm" id="snapTrackingNo">TRK-892341</span>
+            <span id="snapStatusBadge" class="text-xs px-2 py-0.5 rounded-full font-bold bg-blue-500/20 text-blue-400 border border-blue-400/30">派送中</span>
+          </div>
+          <p class="text-xs text-slate-300" id="snapDestination">📍 目的地：742 Evergreen Terrace, Seattle, WA 98101</p>
+          <p class="text-[11px] text-slate-400" id="snapService">全球特快專遞 • 2.4 kg • 需收件人親自簽名</p>
+        </div>
+
+        <!-- CUSTOMER SPECIAL NOTE ALERT -->
+        <div id="snapCustomerNoteBox" class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 max-w-sm">
+          <div class="flex items-center gap-1.5 text-xs font-bold text-amber-400">
+            <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+            <span id="snapNoteTitle">客戶指定特殊備註 / 門禁密碼：</span>
+          </div>
+          <p class="text-xs text-amber-200/90 mt-1" id="snapCustomerNoteText">「大門密碼 #4910。若下雨請勿放置於無遮雨處。」</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- UPDATE STATUS & DISPATCH FORM -->
+    <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 shadow-xl space-y-6">
+      
+      <div>
+        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+          <i data-lucide="edit-3" class="w-5 h-5 text-emerald-400"></i>
+          <span id="formTitle">更新運送動態與簽收憑證</span>
+        </h2>
+        <p class="text-xs text-slate-400 mt-0.5" id="formSubtitle">選擇新狀態並輸入節點備註，送出後將即時同步更新至客戶追蹤頁面</p>
+      </div>
+
+      <!-- STATUS SELECTOR BUTTONS (GRID) -->
+      <div>
+        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2.5" id="lblNewStatus">1. 選擇最新貨態 (New Status)</label>
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+          
+          <button type="button" onclick="selectStatusOption('out_for_delivery')" id="btnStat_out_for_delivery" class="status-option-btn p-3 rounded-xl border border-blue-500 bg-blue-600/20 text-white font-semibold text-xs flex flex-col items-center justify-center gap-2 hover:bg-blue-600/30 transition">
+            <div class="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center">
+              <i data-lucide="truck" class="w-4 h-4"></i>
+            </div>
+            <span id="btnStatText_out">裝車派送中</span>
+          </button>
+
+          <button type="button" onclick="selectStatusOption('in_transit_hub')" id="btnStat_in_transit_hub" class="status-option-btn p-3 rounded-xl border border-slate-700 bg-slate-900/60 text-slate-300 font-semibold text-xs flex flex-col items-center justify-center gap-2 hover:bg-slate-700 transition">
+            <div class="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+              <i data-lucide="package-check" class="w-4 h-4"></i>
+            </div>
+            <span id="btnStatText_hub">轉運樞紐掃描</span>
+          </button>
+
+          <button type="button" onclick="selectStatusOption('in_transit_linehaul')" id="btnStat_in_transit_linehaul" class="status-option-btn p-3 rounded-xl border border-slate-700 bg-slate-900/60 text-slate-300 font-semibold text-xs flex flex-col items-center justify-center gap-2 hover:bg-slate-700 transition">
+            <div class="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center">
+              <i data-lucide="plane" class="w-4 h-4"></i>
+            </div>
+            <span id="btnStatText_flight">幹線運輸/起飛</span>
+          </button>
+
+          <button type="button" onclick="selectStatusOption('exception')" id="btnStat_exception" class="status-option-btn p-3 rounded-xl border border-slate-700 bg-slate-900/60 text-slate-300 font-semibold text-xs flex flex-col items-center justify-center gap-2 hover:bg-slate-700 transition">
+            <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center">
+              <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+            </div>
+            <span id="btnStatText_delay">異常延誤回報</span>
+          </button>
+
+          <button type="button" onclick="selectStatusOption('delivered')" id="btnStat_delivered" class="status-option-btn p-3 rounded-xl border border-slate-700 bg-slate-900/60 text-slate-300 font-semibold text-xs flex flex-col items-center justify-center gap-2 hover:bg-slate-700 transition">
+            <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+              <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+            </div>
+            <span id="btnStatText_delivered">已簽收送達</span>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- CHECKPOINT FIELDS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1" id="lblCheckpointLocation">目前掃描站點 / 街道位置 (Location)</label>
+          <input type="text" id="inputCheckpointLocation" value="西雅圖市中心 派送責任區" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1" id="lblCheckpointTitle">事件動態摘要標題 (Event Title)</label>
+          <input type="text" id="inputCheckpointTitle" value="包裹已裝上派送專車，出發派送中" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        </div>
+
+        <div class="sm:col-span-2">
+          <label class="block text-xs font-semibold text-slate-400 mb-1" id="lblCheckpointDetail">詳細說明內容 (Checkpoint Detail)</label>
+          <textarea id="inputCheckpointDetail" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:outline-none">包裹通過光學掃描，已編入外送員 Alex Mercer 之 #412 車次進行末端派送。</textarea>
+        </div>
+      </div>
+
+      <!-- COURIER STOPS REMAINING (ONLY ACTIVE WHEN OUT FOR DELIVERY) -->
+      <div id="stopsControlSection" class="p-4 rounded-xl bg-slate-900/60 border border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <span class="text-xs font-bold text-white block" id="lblStopsSlider">外送專員距離目的地剩餘站數 (Stops Away)</span>
+          <span class="text-[11px] text-slate-400" id="lblStopsDesc">同步更新客戶端地圖上方之倒數站數與即時 GPS 距離</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <button type="button" onclick="adjustStops(-1)" class="w-8 h-8 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-bold flex items-center justify-center transition">-</button>
+          <span id="stopsDisplay" class="font-mono text-base font-bold text-blue-400 px-3 py-1 bg-slate-800 rounded-lg border border-slate-700 min-w-[70px] text-center">3 站</span>
+          <button type="button" onclick="adjustStops(1)" class="w-8 h-8 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-bold flex items-center justify-center transition">+</button>
+        </div>
+      </div>
+
+      <!-- PROOF OF DELIVERY CARD (EXPANDED WHEN DELIVERED IS SELECTED) -->
+      <div id="proofCaptureSection" class="hidden p-5 rounded-xl bg-emerald-950/30 border border-emerald-500/40 space-y-4">
+        
+        <div class="flex items-center justify-between border-b border-emerald-500/20 pb-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="camera" class="w-5 h-5 text-emerald-400"></i>
+            <h3 class="font-bold text-emerald-300 text-sm" id="lblProofHeader">簽收證明與拍照存證 (Proof of Delivery)</h3>
+          </div>
+          <span class="text-[11px] text-emerald-400 font-semibold bg-emerald-500/20 px-2 py-0.5 rounded">GPS 定位已綁定</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1" id="lblReceivedBy">簽收人 / 放置位置 (Received By)</label>
+            <select id="selectReceivedBy" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none">
+              <option value="Front Porch / Doorstep">門前廊下 / 收件大門 (Front Porch)</option>
+              <option value="Direct In-Person Handover">收件本人親自簽收 (Handed to Resident)</option>
+              <option value="Building Reception / Doorman">大樓管理室 / 物業警衛代收 (Reception)</option>
+              <option value="Smart Pickup Locker #42">24H 智慧自提櫃 #42 (Smart Locker)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1" id="lblRecipientName">簽收人姓名 (Recipient Name)</label>
+            <input type="text" id="inputRecipientName" value="Alex / Resident" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none">
+          </div>
+        </div>
+
+        <!-- DIGITAL SIGNATURE CANVAS -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="text-xs font-semibold text-slate-300" id="lblSignaturePad">電子數位手寫簽名 (Digital Signature Pad)</label>
+            <button type="button" onclick="clearSignatureCanvas()" class="text-[11px] text-rose-400 hover:text-rose-300 font-semibold" id="btnClearSignature">清除重新簽名</button>
+          </div>
+          <div class="relative bg-white rounded-xl overflow-hidden border border-slate-400 h-28 cursor-crosshair">
+            <canvas id="signatureCanvas" class="w-full h-full block"></canvas>
+            <span class="absolute bottom-2 right-2 text-[10px] text-slate-400 pointer-events-none select-none">請在上方虛線範圍內簽署</span>
+          </div>
+        </div>
+
+        <!-- PROOF PHOTO PICKER -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5" id="lblDeliveryPhoto">門前送達照片證明 (Proof Photo)</label>
+          <div class="grid grid-cols-3 gap-2">
+            <label class="cursor-pointer border-2 border-emerald-500 rounded-lg overflow-hidden relative group">
+              <input type="radio" name="proofPhotoChoice" value="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80" checked class="hidden" onchange="updateSelectedPhotoPreview(this.value)">
+              <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=300&q=80" alt="Porch Drop" class="w-full h-16 object-cover">
+              <span class="absolute bottom-0 inset-x-0 bg-black/70 text-[10px] text-center text-white py-0.5">大門前廊</span>
+            </label>
+            <label class="cursor-pointer border-2 border-slate-700 hover:border-slate-500 rounded-lg overflow-hidden relative group">
+              <input type="radio" name="proofPhotoChoice" value="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80" class="hidden" onchange="updateSelectedPhotoPreview(this.value)">
+              <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=300&q=80" alt="Warehouse Locker" class="w-full h-16 object-cover">
+              <span class="absolute bottom-0 inset-x-0 bg-black/70 text-[10px] text-center text-white py-0.5">自提櫃/站所</span>
+            </label>
+            <label class="cursor-pointer border-2 border-slate-700 hover:border-slate-500 rounded-lg overflow-hidden relative group">
+              <input type="radio" name="proofPhotoChoice" value="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" class="hidden" onchange="updateSelectedPhotoPreview(this.value)">
+              <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=300&q=80" alt="House Door" class="w-full h-16 object-cover">
+              <span class="absolute bottom-0 inset-x-0 bg-black/70 text-[10px] text-center text-white py-0.5">住家玄關</span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SUBMIT BUTTONS -->
+      <div class="pt-4 border-t border-slate-700/80 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <button type="button" onclick="resetToFactoryDemoData()" class="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-700 hover:bg-slate-700 text-xs font-semibold text-slate-400 hover:text-white transition flex items-center justify-center gap-1.5">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+          <span id="btnResetDemoData">重設為原始預設值</span>
+        </button>
+
+        <button type="button" onclick="commitStatusUpdate()" class="w-full sm:w-auto px-8 py-3 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-xl shadow-blue-500/20 active:scale-95 transition">
+          <i data-lucide="check" class="w-4 h-4"></i>
+          <span id="btnSubmitUpdate">儲存並同步發布至客戶端</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- RECENT TERMINAL LOGS -->
+    <div class="bg-slate-800/60 rounded-2xl p-5 border border-slate-700/80">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+          <i data-lucide="list-ordered" class="w-4 h-4 text-slate-500"></i>
+          <span id="lblRecentTerminalLogs">本手持設備近期作業紀錄 (Session Log)</span>
+        </h3>
+        <span class="text-[11px] text-slate-500" id="sessionLogCount">0 筆更新</span>
+      </div>
+
+      <div id="sessionLogContainer" class="space-y-2 text-xs">
+        <div class="text-slate-500 py-3 text-center" id="sessionLogEmpty">尚未進行任何狀態變更</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- SUCCESS CONFIRMATION MODAL -->
+  <div id="successModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-700 text-center animate-fade-in">
+      <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center mb-4 border border-emerald-500/30">
+        <i data-lucide="check-circle" class="w-8 h-8"></i>
+      </div>
+      <h3 class="font-bold text-white text-xl mb-1" id="modalSuccessTitle">狀態已同步發布！</h3>
+      <p class="text-xs text-slate-300 mb-6" id="modalSuccessDesc">
+        包裹最新動態、節點歷史與 GPS 座標已寫入系統，客戶端即時追蹤頁面已同步更新。
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-2">
+        <button onclick="closeSuccessModal()" class="flex-1 py-2.5 rounded-xl border border-slate-600 hover:bg-slate-700 text-xs font-bold text-slate-300">
+          繼續更新其他包裹
+        </button>
+        <button onclick="openCustomerTrackingPage()" class="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-xs font-bold text-white flex items-center justify-center gap-1.5 shadow">
+          <span>開啟客戶追蹤頁檢視</span>
+          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIMULATED SCANNER OVERLAY MODAL -->
+  <div id="scannerModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-4">
+    <div class="text-center mb-6">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-500/20 text-blue-400 border border-blue-400/30 mb-2">
+        <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+        OPTICAL SCANNER ACTIVE
+      </span>
+      <h3 class="text-xl font-bold text-white">將相機對準包裹條碼 (Barcode / QR)</h3>
+      <p class="text-xs text-slate-400 mt-1">光學辨識紅外線對焦中...</p>
+    </div>
+
+    <!-- SCANNER VIEWFINDER BOX -->
+    <div class="relative w-72 h-72 sm:w-80 sm:h-80 rounded-2xl border-2 border-blue-500/50 bg-slate-900/50 overflow-hidden shadow-2xl flex items-center justify-center">
+      <!-- Corner Crosshairs -->
+      <div class="absolute top-2 left-2 w-6 h-6 border-t-4 border-l-4 border-blue-400"></div>
+      <div class="absolute top-2 right-2 w-6 h-6 border-t-4 border-r-4 border-blue-400"></div>
+      <div class="absolute bottom-2 left-2 w-6 h-6 border-b-4 border-l-4 border-blue-400"></div>
+      <div class="absolute bottom-2 right-2 w-6 h-6 border-b-4 border-r-4 border-blue-400"></div>
+
+      <!-- Animated Red Laser Scan Line -->
+      <div class="scanner-laser absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent shadow-[0_0_15px_#ef4444]"></div>
+
+      <div class="text-center p-4 pointer-events-none">
+        <i data-lucide="qr-code" class="w-16 h-16 text-slate-600 mx-auto mb-2 opacity-50"></i>
+        <span class="text-xs font-mono text-blue-300 font-bold block" id="scannerTargetId">TRK-892341</span>
+        <span class="text-[10px] text-slate-500">Code 128 / Data Matrix</span>
+      </div>
+    </div>
+
+    <div class="mt-6 flex gap-3">
+      <button onclick="closeScannerModal()" class="px-5 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs font-semibold">
+        取消
+      </button>
+      <button onclick="triggerScannerBeep()" class="px-6 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-emerald-500/20">
+        <i data-lucide="check" class="w-4 h-4"></i>
+        <span>手動觸發辨識 (Beep)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-slate-800 text-white px-4 py-3 rounded-xl shadow-2xl border border-slate-700 flex items-center gap-3 text-sm">
+      <i id="toastIcon" data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
+      <span id="toastMessage">已成功完成。</span>
+    </div>
+  </div>
+
+  <!-- STYLES FOR SCANNER ANIMATION -->
+  <style>
+    @keyframes laser-sweep {
+      0% { top: 0%; opacity: 0.8; }
+      50% { top: 96%; opacity: 1; }
+      100% { top: 0%; opacity: 0.8; }
+    }
+    .scanner-laser {
+      animation: laser-sweep 2s ease-in-out infinite;
+    }
+  </style>
+
+  <!-- SCRIPTS -->
+  <script src="i18n.js"></script>
+  <script src="driver.js"></script>
+</body>
+</html>

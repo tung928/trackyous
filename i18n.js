@@ -19,8 +19,10 @@ const I18N_DICTIONARY = {
     "nav_how": "How It Works",
     "nav_carriers": "Supported Carriers",
     "nav_faq": "FAQ",
+    "nav_driver": "Driver & Staff Portal",
     "btn_alerts": "Alerts",
     "btn_print": "Print Proof",
+    "btn_driver_portal": "Driver/Staff Terminal",
 
     // Hero
     "hero_badge": "Universal Package Tracker & Status Visualizer",
@@ -164,8 +166,10 @@ const I18N_DICTIONARY = {
     "nav_how": "運作原理",
     "nav_carriers": "支援物流商",
     "nav_faq": "常見問題",
+    "nav_driver": "外送員/站所更新端",
     "btn_alerts": "配送提醒",
     "btn_print": "列印憑證",
+    "btn_driver_portal": "外送員/站所端",
 
     // Hero
     "hero_badge": "全方位包裹追蹤與動態視覺化平台",
