@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>聯絡我們 | 葵涌 ATL 總部與倉儲據點 — 堅強貨運有限公司</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            corporate: {
+              navy: '#0a2540',
+              deep: '#0f2b48',
+              blue: '#16325c',
+              red: '#c81e2b',
+              redHover: '#b91c1c',
+              slate: '#64748b',
+              light: '#f8fafc'
+            }
+          },
+          fontFamily: {
+            sans: ['"Noto Sans TC"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-[#c81e2b] selection:text-white flex flex-col min-h-screen">
+
+  <!-- HEADER NAVIGATION -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- LOGO -->
+      <a href="index.html" class="flex items-center gap-3 group">
+        <svg class="w-9 h-9" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 8L20 8L12 32L0 32L8 8Z" fill="#c81e2b"/>
+          <path d="M18 8L30 8L22 32L10 32L18 8Z" fill="#16325c"/>
+          <path d="M28 8L40 8L32 32L20 32L28 8Z" fill="#0a2540"/>
+        </svg>
+        <div>
+          <div class="text-2xl font-black tracking-tight text-[#0a2540] leading-none">堅強貨運</div>
+          <div class="text-[9px] font-bold text-slate-600 tracking-wider uppercase mt-1">KIN KEUNG TRANSPORTATION LTD.</div>
+        </div>
+      </a>
+
+      <!-- NAVIGATION LINKS -->
+      <nav class="hidden xl:flex items-center space-x-7 text-sm font-semibold text-slate-700">
+        <a href="index.html" class="hover:text-[#c81e2b] transition">首頁</a>
+        <a href="services.html" class="hover:text-[#c81e2b] transition">服務範圍</a>
+        <a href="solutions.html" class="hover:text-[#c81e2b] transition">解決方案與流程</a>
+        <a href="facility.html" class="hover:text-[#c81e2b] transition">智能倉儲設施</a>
+        <a href="track.html" class="hover:text-[#c81e2b] transition">追蹤查詢</a>
+        <a href="about.html" class="hover:text-[#c81e2b] transition">關於我們</a>
+        <a href="contact.html" class="text-[#c81e2b] border-b-2 border-[#c81e2b] pb-1">聯絡我們</a>
+      </nav>
+
+      <!-- RIGHT ACTIONS -->
+      <div class="flex items-center space-x-4">
+        <a href="#message-form" class="bg-[#c81e2b] hover:bg-[#b91c1c] text-white px-5 py-2.5 rounded-md text-sm font-bold shadow-sm transition active:scale-95">
+          取得報價
+        </a>
+        <a href="tel:+85224562797" class="hidden sm:flex items-center gap-1.5 text-xs font-bold text-slate-800 pl-2 border-l border-slate-200">
+          <i data-lucide="phone" class="w-3.5 h-3.5 text-[#c81e2b]"></i>
+          <span>+852 2456 2797</span>
+        </a>
+        <a href="driver.html" class="hidden md:inline-flex items-center gap-1 text-xs text-slate-500 hover:text-[#0a2540] border rounded px-2 py-1 bg-slate-50">
+          <i data-lucide="shield" class="w-3.5 h-3.5 text-blue-600"></i>
+          <span>司機/站所端</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-grow">
+
+    <!-- HERO SECTION -->
+    <section class="bg-gradient-to-r from-[#0a2540] via-[#0f2b48] to-[#16325c] text-white py-16 sm:py-20 relative overflow-hidden">
+      <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/20 text-red-300 border border-red-500/30 text-xs font-bold uppercase tracking-wider mb-4">
+          <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+          <span>GLOBAL HEADQUARTERS & LOGISTICS HUB</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black tracking-tight mb-4">
+          聯絡堅強貨運 • 隨時為您服務
+        </h1>
+        <p class="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
+          無論是本地專車派送、葵涌 50,000+ 呎智能倉位託管，抑或跨境陸運海空物流，我們的專業客戶經理隨時恭候，為您量身規劃高性價比供應鏈方案。
+        </p>
+      </div>
+    </section>
+
+    <!-- CONTACT DETAILS & FORM SECTION -->
+    <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- LEFT COLUMN: OFFICIAL CONTACT INFO & QR CODES (SLIDE 13) -->
+        <div class="lg:col-span-5 space-y-6">
+          
+          <!-- OFFICE & WAREHOUSE CARD -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
+            
+            <div class="border-b border-slate-100 pb-4">
+              <span class="text-xs font-bold text-[#c81e2b] uppercase tracking-wider">OFFICIAL LOCATIONS</span>
+              <h2 class="text-xl sm:text-2xl font-black text-[#0a2540] mt-1">據點與辦公地址</h2>
+            </div>
+
+            <!-- Address 1: Head Office -->
+            <div class="flex items-start gap-3.5">
+              <div class="w-10 h-10 rounded-xl bg-red-50 text-[#c81e2b] flex items-center justify-center shrink-0 mt-0.5">
+                <i data-lucide="building" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <span class="text-xs font-bold text-slate-800 block">總部辦公室地址</span>
+                <p class="text-xs text-slate-600 leading-relaxed mt-1 font-medium">
+                  香港新界葵涌3號貨櫃碼頭亞洲貨櫃物流中心A座7樓 7008西翼至7009西翼
+                </p>
+                <span class="text-[10px] text-slate-400 block mt-0.5">ATL Logistics Centre Tower A, 7/F, West Wing</span>
+              </div>
+            </div>
+
+            <!-- Address 2: Warehouse Location -->
+            <div class="flex items-start gap-3.5">
+              <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center shrink-0 mt-0.5">
+                <i data-lucide="warehouse" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <span class="text-xs font-bold text-slate-800 block">堅強智能倉庫位置</span>
+                <p class="text-xs text-slate-600 leading-relaxed mt-1 font-medium">
+                  香港新界葵涌3號貨櫃碼頭亞洲貨櫃物流中心A座1樓 1001E-1004E 及 1001W-1004W室
+                </p>
+                <span class="text-[10px] text-slate-400 block mt-0.5">ATL Logistics Centre Tower A, 1/F, East & West Wing</span>
+              </div>
+            </div>
+
+            <!-- Phones -->
+            <div class="flex items-start gap-3.5">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
+                <i data-lucide="phone-call" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <span class="text-xs font-bold text-slate-800 block">諮詢與服務電話</span>
+                <div class="text-xs text-slate-700 font-semibold mt-1 flex flex-wrap items-center gap-3">
+                  <a href="tel:+85224562797" class="hover:text-[#c81e2b] transition flex items-center gap-1">
+                    <span>(852) 2456 2797</span>
+                  </a>
+                  <span class="text-slate-300">|</span>
+                  <a href="tel:+85297888192" class="hover:text-[#c81e2b] transition flex items-center gap-1">
+                    <span>(852) 9788 8192</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="flex items-start gap-3.5">
+              <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center shrink-0 mt-0.5">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <span class="text-xs font-bold text-slate-800 block">業務聯絡郵箱</span>
+                <div class="text-xs text-slate-700 font-semibold mt-1 space-y-1">
+                  <div><a href="mailto:may@kinkeung.com.hk" class="hover:text-[#c81e2b] transition">may@kinkeung.com.hk</a></div>
+                  <div><a href="mailto:lida@kinkeung.com.hk" class="hover:text-[#c81e2b] transition">lida@kinkeung.com.hk</a></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- QR CODES BOX (WECHAT & WHATSAPP) - DIRECTLY FROM SLIDE 13 -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <h3 class="text-sm font-black text-[#0a2540] mb-1">即時社交與通訊對接</h3>
+            <p class="text-xs text-slate-500 mb-5">掃描二維碼即可透過 WhatsApp 或微信直接與值班業務經理通訊：</p>
+            
+            <div class="grid grid-cols-2 gap-4 text-center">
+              
+              <!-- WeChat -->
+              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col items-center">
+                <div class="w-28 h-28 bg-white p-1 rounded-lg border border-slate-200 shadow-xs mb-2 overflow-hidden">
+                  <img src="assets/qr-wechat.png" alt="微信二維碼" class="w-full h-full object-contain">
+                </div>
+                <div class="flex items-center gap-1 text-xs font-bold text-slate-800">
+                  <i data-lucide="message-square" class="w-3.5 h-3.5 text-emerald-600"></i>
+                  <span>微信諮詢</span>
+                </div>
+                <span class="text-[10px] text-slate-400 mt-0.5">在線即時客服</span>
+              </div>
+
+              <!-- WhatsApp -->
+              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col items-center">
+                <div class="w-28 h-28 bg-white p-1 rounded-lg border border-slate-200 shadow-xs mb-2 overflow-hidden">
+                  <img src="assets/qr-whatsapp.png" alt="WhatsApp 二維碼" class="w-full h-full object-contain">
+                </div>
+                <a href="https://wa.me/85297888192" target="_blank" class="flex items-center gap-1 text-xs font-bold text-emerald-700 hover:underline">
+                  <i data-lucide="phone" class="w-3.5 h-3.5 text-emerald-600"></i>
+                  <span>WhatsApp 聯絡</span>
+                </a>
+                <span class="text-[10px] text-slate-400 mt-0.5">+852 9788 8192</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: ATL RECEPTION PHOTO & INTERACTIVE MESSAGE FORM -->
+        <div class="lg:col-span-7 space-y-6">
+          
+          <!-- ATL RECEPTION IMAGE CARD -->
+          <div class="rounded-2xl overflow-hidden border border-slate-200 bg-white shadow-sm">
+            <div class="relative h-64 sm:h-80 bg-slate-100 overflow-hidden">
+              <img src="assets/atl-reception.png" alt="亞洲貨櫃物流中心 ATL 大廳前台" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <div class="absolute bottom-4 left-6 right-6 text-white">
+                <span class="text-[10px] uppercase font-bold text-red-300 tracking-wider">ATL LOGISTICS CENTRE</span>
+                <h3 class="text-xl sm:text-2xl font-black">亞洲貨櫃物流中心 迎賓前台</h3>
+                <p class="text-xs text-slate-200 mt-1">香港新界葵涌3號貨櫃碼頭 • 國際級頂級物流樞紐</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- INQUIRY FORM -->
+          <div id="message-form" class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm scroll-mt-20">
+            <h2 class="text-xl font-black text-[#0a2540] mb-1">在線留言與報價諮詢</h2>
+            <p class="text-xs text-slate-500 mb-6">請留下您的需求資訊，我們的物流專案團隊將於 15 分鐘內為您反饋方案及報價：</p>
+
+            <form onsubmit="event.preventDefault(); document.getElementById('contact-success-alert').classList.remove('hidden');" class="space-y-4">
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">您的姓名 / 貴司全稱 *</label>
+                  <input type="text" required placeholder="例如：黃小姐 / 環球供應鏈有限公司" class="w-full text-xs px-3.5 py-2.5 rounded-md border border-slate-300 focus:outline-hidden focus:border-[#c81e2b] focus:ring-1 focus:ring-[#c81e2b]">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">聯絡電話 / WhatsApp *</label>
+                  <input type="tel" required placeholder="例如：+852 9788 8192" class="w-full text-xs px-3.5 py-2.5 rounded-md border border-slate-300 focus:outline-hidden focus:border-[#c81e2b] focus:ring-1 focus:ring-[#c81e2b]">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">聯絡電郵</label>
+                  <input type="email" placeholder="例如：client@company.com" class="w-full text-xs px-3.5 py-2.5 rounded-md border border-slate-300 focus:outline-hidden focus:border-[#c81e2b] focus:ring-1 focus:ring-[#c81e2b]">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">諮詢項目類別 *</label>
+                  <select required class="w-full text-xs px-3.5 py-2.5 rounded-md border border-slate-300 focus:outline-hidden focus:border-[#c81e2b] focus:ring-1 focus:ring-[#c81e2b] bg-white">
+                    <option value="warehouse">葵涌 50,000+ 呎智能倉儲託管</option>
+                    <option value="local">全港 18 區本地幹線即日配送</option>
+                    <option value="crossborder">中港跨境陸運 / 福建重點專線</option>
+                    <option value="ecommerce">電商履約一件代發 / 貼標二次包裝</option>
+                    <option value="special">高價值/恆溫冷鏈特種防護押運</option>
+                    <option value="green">全新純電 10T 貨卡 ESG 綠色運輸</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">詳細需求描述</label>
+                <textarea rows="4" placeholder="請描述您的出貨頻率、貨物重量、體積、預期啟用時間或特殊要求..." class="w-full text-xs px-3.5 py-2.5 rounded-md border border-slate-300 focus:outline-hidden focus:border-[#c81e2b] focus:ring-1 focus:ring-[#c81e2b]"></textarea>
+              </div>
+
+              <div class="flex items-center justify-between pt-2">
+                <span class="text-[11px] text-slate-400 flex items-center gap-1">
+                  <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+                  資訊保密承諾 • 專人極速回覆
+                </span>
+                <button type="submit" class="bg-[#c81e2b] hover:bg-[#b91c1c] text-white px-7 py-2.5 rounded-md text-xs font-bold transition shadow-md active:scale-95">
+                  送出諮詢訊息
+                </button>
+              </div>
+
+              <div id="contact-success-alert" class="hidden p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-700 text-xs font-semibold flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i>
+                <span>您的訊息已送達堅強貨運總部團隊！我們的業務代表將盡快以電話或 WhatsApp 與您聯繫。</span>
+              </div>
+
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#081a2e] text-slate-300 text-xs pt-12 pb-8 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <span class="text-lg font-black text-white">堅強貨運</span>
+          <span class="text-slate-400">KIN KEUNG TRANSPORTATION LTD.</span>
+        </div>
+        <div class="flex flex-wrap gap-6 text-slate-400">
+          <a href="index.html" class="hover:text-white transition">首頁</a>
+          <a href="services.html" class="hover:text-white transition">服務範圍</a>
+          <a href="solutions.html" class="hover:text-white transition">解決方案與流程</a>
+          <a href="facility.html" class="hover:text-white transition">智能倉儲設施</a>
+          <a href="track.html" class="hover:text-white transition">貨件追蹤</a>
+          <a href="about.html" class="hover:text-white transition">關於我們</a>
+          <a href="contact.html" class="text-white font-bold">聯絡我們</a>
+        </div>
+      </div>
+      <div class="pt-6 text-center text-slate-500 text-[11px]">
+        © 2024 堅強貨運有限公司 版權所有 • 香港新界葵涌3號貨櫃碼頭亞洲貨櫃物流中心A座7樓 7008-7009西翼
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
