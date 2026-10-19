@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>智能倉儲樞紐與設施規格 | 堅強貨運有限公司 KIN KEUNG TRANSPORTATION LTD.</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            corporate: {
+              navy: '#0a2540',
+              deep: '#0f2b48',
+              blue: '#16325c',
+              red: '#c81e2b',
+              redHover: '#b91c1c',
+              slate: '#64748b',
+              light: '#f8fafc'
+            }
+          },
+          fontFamily: {
+            sans: ['"Noto Sans TC"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+    .spec-number-glow {
+      text-shadow: 0 2px 10px rgba(10, 37, 64, 0.1);
+    }
+    .modal-img-zoom {
+      cursor: zoom-in;
+      transition: transform 0.25s ease;
+    }
+    .modal-img-zoom:hover {
+      transform: scale(1.01);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-[#c81e2b] selection:text-white flex flex-col min-h-screen">
+
+  <!-- HEADER NAVIGATION -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- LOGO -->
+      <a href="index.html" class="flex items-center gap-3 group">
+        <svg class="w-9 h-9" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 8L20 8L12 32L0 32L8 8Z" fill="#c81e2b"/>
+          <path d="M18 8L30 8L22 32L10 32L18 8Z" fill="#16325c"/>
+          <path d="M28 8L40 8L32 32L20 32L28 8Z" fill="#0a2540"/>
+        </svg>
+        <div>
+          <div class="text-2xl font-black tracking-tight text-[#0a2540] leading-none">堅強貨運</div>
+          <div class="text-[9px] font-bold text-slate-600 tracking-wider uppercase mt-1">KIN KEUNG TRANSPORTATION LTD.</div>
+        </div>
+      </a>
+
+      <!-- NAVIGATION LINKS -->
+      <nav class="hidden xl:flex items-center space-x-7 text-sm font-semibold text-slate-700">
+        <a href="index.html" class="hover:text-[#c81e2b] transition">首頁</a>
+        <a href="services.html" class="hover:text-[#c81e2b] transition">服務範圍</a>
+        <a href="facility.html" class="text-[#c81e2b] border-b-2 border-[#c81e2b] pb-1">智能倉儲設施</a>
+        <a href="track.html" class="hover:text-[#c81e2b] transition">追蹤查詢</a>
+        <a href="about.html" class="hover:text-[#c81e2b] transition">關於我們</a>
+        <a href="index.html#news" class="hover:text-[#c81e2b] transition">最新消息</a>
+        <a href="index.html#contact" class="hover:text-[#c81e2b] transition">聯絡我們</a>
+      </nav>
+
+      <!-- RIGHT ACTIONS -->
+      <div class="flex items-center space-x-4">
+        <a href="index.html#contact" class="bg-[#c81e2b] hover:bg-[#b91c1c] text-white px-5 py-2.5 rounded-md text-sm font-bold shadow-sm transition active:scale-95">
+          取得報價
+        </a>
+        <a href="tel:+85212345678" class="hidden sm:flex items-center gap-1.5 text-xs font-bold text-slate-800 pl-2 border-l border-slate-200">
+          <i data-lucide="phone" class="w-3.5 h-3.5 text-[#c81e2b]"></i>
+          <span>+852 1234 5678</span>
+        </a>
+        <a href="driver.html" class="hidden md:inline-flex items-center gap-1 text-xs text-slate-500 hover:text-[#0a2540] border rounded px-2 py-1 bg-slate-50">
+          <i data-lucide="shield" class="w-3.5 h-3.5 text-blue-600"></i>
+          <span>司機/站所端</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-grow">
+
+    <!-- PAGE HERO BANNER -->
+    <section class="bg-gradient-to-r from-[#0a2540] via-[#0f2b48] to-[#16325c] text-white py-16 px-4">
+      <div class="max-w-7xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-white/10 text-blue-200 border border-white/20 mb-3">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          元朗雙層大總倉 • ATL 亞洲貨櫃物流中心直達走廊
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black tracking-tight">50,000⁺ 智能倉儲樞紐與設施</h1>
+        <p class="text-slate-300 text-sm sm:text-base mt-4 max-w-2xl mx-auto leading-relaxed">
+          全新升級的元朗雙層倉庫，普倉＋恆溫倉無縫切換，專為高吞吐量跨境與本地配送打造的香港效能核心。
+        </p>
+      </div>
+    </section>
+
+    <!-- 1. 核心規格指標 (SPECS GRID) - BASED ON SLIDE 3 -->
+    <section class="py-20 bg-white border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-12">
+          
+          <!-- LEFT: 50,000+ HERO CARD (FROM SLIDE 3) -->
+          <div class="lg:col-span-5 bg-gradient-to-br from-slate-900 to-[#0a2540] text-white rounded-3xl p-8 shadow-xl border border-slate-800 relative overflow-hidden">
+            <!-- Background glow -->
+            <div class="absolute -right-10 -bottom-10 w-60 h-60 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-2">跨境本地 • 高效並行 (Cross-border Local • Efficient Parallel)</div>
+            
+            <div class="flex items-baseline gap-1 my-3">
+              <span class="text-6xl sm:text-7xl font-black tracking-tighter text-white">50000</span>
+              <span class="text-4xl font-black text-red-500">+</span>
+            </div>
+
+            <div class="inline-block bg-[#c81e2b] text-white text-base sm:text-lg font-black px-4 py-1.5 rounded-lg tracking-wider mb-6 shadow">
+              智能倉儲樞紐
+            </div>
+
+            <div class="space-y-3 text-xs sm:text-sm text-slate-300 leading-relaxed pt-3 border-t border-slate-800">
+              <p class="flex items-start gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+                <span>全新升級的元朗雙層倉庫，普倉+恆溫倉，是您供應鏈的香港效能核心。</span>
+              </p>
+              <p class="flex items-start gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+                <span>標準化空間與智能動線，確保跨境與本地作業高效並行，高峰期亦保持可控。</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- RIGHT: 6 CORE SPEC METRICS GRID (FROM SLIDE 3) -->
+          <div class="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-5">
+            
+            <!-- Metric 1: 卸貨台數目 -->
+            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-slate-500 block">卸貨台數目</span>
+                <span class="text-[10px] text-slate-400 font-mono">Loading Bay Number</span>
+              </div>
+              <div class="mt-4 flex items-baseline gap-1">
+                <span class="text-4xl sm:text-5xl font-black text-[#0a2540]">12</span>
+                <span class="text-xs font-bold text-slate-600">個</span>
+              </div>
+            </div>
+
+            <!-- Metric 2: 上行車線 -->
+            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-slate-500 block">上行車線</span>
+                <span class="text-[10px] text-slate-400 font-mono">Upbound lane</span>
+              </div>
+              <div class="mt-4 flex items-baseline gap-1">
+                <span class="text-4xl sm:text-5xl font-black text-[#0a2540]">2</span>
+                <span class="text-xs font-bold text-slate-600">條</span>
+              </div>
+            </div>
+
+            <!-- Metric 3: 樓面承載重量 -->
+            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-slate-500 block">樓面承載重量</span>
+                <span class="text-[10px] text-slate-400 font-mono">Loading Capacity</span>
+              </div>
+              <div class="mt-4">
+                <div class="flex items-baseline gap-1">
+                  <span class="text-3xl sm:text-4xl font-black text-[#0a2540]">350/450</span>
+                  <span class="text-xs font-bold text-slate-600">磅</span>
+                </div>
+                <span class="text-[10px] text-slate-500 block mt-0.5">每平方呎（只限貨倉）</span>
+              </div>
+            </div>
+
+            <!-- Metric 4: 貨櫃停靠台 -->
+            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-slate-500 block">貨櫃停靠台</span>
+                <span class="text-[10px] text-slate-400 font-mono">Container dock</span>
+              </div>
+              <div class="mt-4 flex items-baseline gap-1">
+                <span class="text-4xl sm:text-5xl font-black text-[#0a2540]">20</span>
+                <span class="text-xs font-bold text-slate-600">個</span>
+              </div>
+            </div>
+
+            <!-- Metric 5: 下行車線 -->
+            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-slate-500 block">下行車線</span>
+                <span class="text-[10px] text-slate-400 font-mono">Downbound lane</span>
+              </div>
+              <div class="mt-4 flex items-baseline gap-1">
+                <span class="text-4xl sm:text-5xl font-black text-[#0a2540]">1</span>
+                <span class="text-xs font-bold text-slate-600">條</span>
+              </div>
+            </div>
+
+            <!-- Metric 6: 貨倉樓底高度 -->
+            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-slate-500 block">貨倉樓底高度</span>
+                <span class="text-[10px] text-slate-400 font-mono">Clear Ceiling Height</span>
+              </div>
+              <div class="mt-4">
+                <div class="flex items-baseline gap-1">
+                  <span class="text-4xl sm:text-5xl font-black text-[#0a2540]">5/7</span>
+                  <span class="text-xs font-bold text-slate-600">米</span>
+                </div>
+                <span class="text-[10px] text-slate-500 block mt-0.5">地面至橫樑實高</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2. 全新硬件升級 & 倉庫平面圖 (HARDWARE UPGRADES & FLOOR PLAN) - BASED ON SLIDE 5 -->
+    <section class="py-20 bg-slate-50 border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="mb-12">
+          <div class="flex items-center gap-2">
+            <h2 class="text-2xl sm:text-3xl font-black text-[#0a2540]">全新硬件升級</h2>
+            <span class="text-xs uppercase font-bold text-slate-400 tracking-wider">All-New Hardware Upgrades</span>
+          </div>
+          <div class="w-14 h-1 bg-[#c81e2b] mt-2 rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          <!-- LEFT: FLOOR PLAN (A倉 / B倉 平面圖) -->
+          <div class="lg:col-span-8 bg-white p-6 rounded-2xl border border-slate-200 shadow-md">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2">
+                <i data-lucide="layout-grid" class="w-5 h-5 text-blue-700"></i>
+                <h3 class="font-bold text-base sm:text-lg text-[#0a2540]">倉庫立體動線平面圖</h3>
+              </div>
+              <span class="text-xs bg-slate-100 text-slate-600 font-semibold px-2.5 py-1 rounded">B倉 ⟷ 中央車道 ⟷ A倉</span>
+            </div>
+
+            <!-- Floor Plan Image -->
+            <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-50 p-2 flex items-center justify-center">
+              <img 
+                src="assets/floorplan.png" 
+                alt="堅強貨運 A倉與B倉標準化立體動線平面圖" 
+                class="w-full h-auto object-contain modal-img-zoom rounded-lg"
+                onclick="window.open(this.src)"
+                title="點擊在新分頁檢視高解析大圖"
+              />
+            </div>
+            <div class="flex justify-between items-center text-[11px] text-slate-400 mt-3 px-1">
+              <span>* 雙向寬車道無死角環迴動線，大型 40 呎貨櫃車及中型 10T 純電車輛均可順暢迴轉</span>
+              <span class="text-blue-600 font-medium">點擊圖片可檢視原圖</span>
+            </div>
+          </div>
+
+          <!-- RIGHT: 3 HARDWARE HIGHLIGHTS (RACKS, EV VAN, EV CHARGER) -->
+          <div class="lg:col-span-4 space-y-4">
+            
+            <!-- Card 1: 四柱橫梁式貨架 -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-4 hover:border-blue-400 transition">
+              <img src="assets/racks.png" alt="四柱橫梁式貨架" class="w-20 h-20 rounded-lg object-contain bg-slate-50 p-1 border border-slate-100 shrink-0">
+              <div>
+                <h4 class="font-bold text-sm text-[#0a2540]">四柱橫梁式重型貨架</h4>
+                <p class="text-xs text-slate-500 mt-1 leading-relaxed">高載重立體貨架，精準提升 150% 儲位坪效，支援多品種標準卡板直取。</p>
+              </div>
+            </div>
+
+            <!-- Card 2: 全新純電車 10T/VAN -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-4 hover:border-emerald-400 transition">
+              <img src="assets/ev-van.png" alt="全新純電 10T/VAN 物流車" class="w-20 h-20 rounded-lg object-cover bg-slate-50 border border-slate-100 shrink-0">
+              <div>
+                <h4 class="font-bold text-sm text-[#0a2540]">全新純電車隊 10T/VAN</h4>
+                <p class="text-xs text-slate-500 mt-1 leading-relaxed">配備堅強貨運塗裝之純電物流專車，零排放市區即時配送，符合企業 ESG 標準。</p>
+              </div>
+            </div>
+
+            <!-- Card 3: 貨倉自有充電樁 -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-4 hover:border-purple-400 transition">
+              <img src="assets/ev-charger.png" alt="貨倉自有大功率充電樁" class="w-20 h-20 rounded-lg object-contain bg-slate-50 p-1 border border-slate-100 shrink-0">
+              <div>
+                <h4 class="font-bold text-sm text-[#0a2540]">貨倉自有大功率充電樁</h4>
+                <p class="text-xs text-slate-500 mt-1 leading-relaxed">場內配備直流高壓雙槍充電樁，全天候保障新能源車隊無縫續航發車。</p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. 先進大樓管理系統 & 高效交通管理系統 - BASED ON SLIDE 4 -->
+    <section class="py-20 bg-white border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          
+          <!-- SYSTEM 1: 先進大樓管理系統 -->
+          <div class="bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-200 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-blue-100 text-[#0a2540] flex items-center justify-center font-bold">
+                  <i data-lucide="monitor" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg sm:text-xl font-black text-[#0a2540]">先進大樓管理系統</h3>
+                  <span class="text-[11px] text-slate-400 font-mono">Advanced Building Management System</span>
+                </div>
+              </div>
+
+              <!-- Two Photos -->
+              <div class="grid grid-cols-2 gap-3 mb-5">
+                <div class="rounded-xl overflow-hidden border border-slate-200 shadow-xs">
+                  <img src="assets/cctv-operator.png" alt="24小時保安中央監控大螢幕" class="w-full h-32 object-cover">
+                </div>
+                <div class="rounded-xl overflow-hidden border border-slate-200 shadow-xs">
+                  <img src="assets/turnstiles.png" alt="自動化登記與智慧閘道系統" class="w-full h-32 object-cover">
+                </div>
+              </div>
+
+              <!-- Bullet Points -->
+              <ul class="space-y-2.5 text-xs text-slate-600 font-medium">
+                <li class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#c81e2b]"></span>
+                  <span>每工作天平均處理七千架次貨車流量</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#c81e2b]"></span>
+                  <span>提供全天候 24 小時安全保安監控系統</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#c81e2b]"></span>
+                  <span>全自動登記及智慧輪候排隊系統</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#c81e2b] mt-1"></span>
+                  <span>設有各類高級防火設備（防火閘、自動灑水系統、消防栓、滅火喉及滅火筒）</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- SYSTEM 2: 高效交通管理系統 -->
+          <div class="bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-200 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-red-100 text-[#c81e2b] flex items-center justify-center font-bold">
+                  <i data-lucide="traffic-cone" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg sm:text-xl font-black text-[#0a2540]">高效交通管理系統</h3>
+                  <span class="text-[11px] text-slate-400 font-mono">Efficient Traffic Management System</span>
+                </div>
+              </div>
+
+              <!-- Two Photos -->
+              <div class="grid grid-cols-2 gap-3 mb-5">
+                <div class="rounded-xl overflow-hidden border border-slate-200 shadow-xs">
+                  <img src="assets/traffic-ops.png" alt="交通調度監測控制台" class="w-full h-32 object-cover">
+                </div>
+                <div class="rounded-xl overflow-hidden border border-slate-200 shadow-xs">
+                  <img src="assets/gate-booth.png" alt="智慧車道自動道閘哨所" class="w-full h-32 object-cover">
+                </div>
+              </div>
+
+              <!-- Bullet Points -->
+              <ul class="space-y-2.5 text-xs text-slate-600 font-medium">
+                <li class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                  <span>二十四小時專業保安巡邏及高解析閉路電視監察</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                  <span>全電腦化動態交通監測及智慧交通燈導流系統</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                  <span>車牌自動光學識別（ANPR），無卡快速進出場站</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                  <span>尖峰時段車流分段調控，實現零擁堵裝卸貨效率</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. ATL 亞洲貨櫃物流中心 & 地理樞紐位置 - BASED ON SLIDE 2 -->
+    <section class="py-20 bg-slate-900 text-white relative overflow-hidden">
+      <!-- Background subtle grid -->
+      <div class="absolute inset-0 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:24px_24px] opacity-15 pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <div class="text-center max-w-2xl mx-auto mb-14">
+          <span class="text-xs font-bold text-red-400 uppercase tracking-wider">Strategic Logistics Gateway</span>
+          <h2 class="text-2xl sm:text-4xl font-black mt-1">黃金樞紐位置 • 貫通全球與內陸口岸</h2>
+          <p class="text-slate-400 text-xs sm:text-sm mt-2">
+            進駐葵涌 ATL 亞洲貨櫃物流中心及元朗核心轉運帶，毗鄰港口海運碼頭、港珠澳大橋與深圳跨境陸路口岸。
+          </p>
+        </div>
+
+        <!-- FULL MAP & PHOTO DISPLAY (FROM SLIDE 2) -->
+        <div class="bg-slate-800 rounded-3xl overflow-hidden border border-slate-700 shadow-2xl">
+          <img 
+            src="assets/slide_2.png" 
+            alt="堅強貨運 ATL 亞洲貨櫃物流中心地理樞紐圖與時效指標" 
+            class="w-full h-auto object-cover"
+          />
+        </div>
+
+        <!-- 4 TRANSIT TIME BADGES -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
+          
+          <div class="bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-white/10 text-center">
+            <span class="text-4xl sm:text-5xl font-black text-white">1</span>
+            <span class="text-xs font-bold text-red-400 ml-1">Min</span>
+            <span class="block text-xs font-bold text-slate-200 mt-2">步行至 3號貨櫃碼頭</span>
+            <span class="text-[10px] text-slate-400">walk to Container Terminal 3</span>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-white/10 text-center">
+            <span class="text-4xl sm:text-5xl font-black text-white">24</span>
+            <span class="text-xs font-bold text-blue-400 ml-1">Min</span>
+            <span class="block text-xs font-bold text-slate-200 mt-2">行車至 香港國際機場</span>
+            <span class="text-[10px] text-slate-400">drive to HK International Airport</span>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-white/10 text-center">
+            <span class="text-4xl sm:text-5xl font-black text-white">10</span>
+            <span class="text-xs font-bold text-indigo-400 ml-1">Min</span>
+            <span class="block text-xs font-bold text-slate-200 mt-2">步行至 荔景港鐵站</span>
+            <span class="text-[10px] text-slate-400">walk to Lai King MTR Station</span>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-white/10 text-center">
+            <span class="text-4xl sm:text-5xl font-black text-white">36</span>
+            <span class="text-xs font-bold text-emerald-400 ml-1">Min</span>
+            <span class="block text-xs font-bold text-slate-200 mt-2">行車至 皇崗口岸</span>
+            <span class="text-[10px] text-slate-400">drive to Huanggang Port (Shenzhen)</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#081a2e] text-slate-300 text-xs pt-12 pb-8 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <span class="text-lg font-black text-white">堅強貨運</span>
+          <span class="text-slate-400">KIN KEUNG TRANSPORTATION LTD.</span>
+        </div>
+        <div class="flex space-x-6">
+          <a href="index.html" class="hover:text-white transition">首頁</a>
+          <a href="services.html" class="hover:text-white transition">服務範圍</a>
+          <a href="facility.html" class="text-white font-bold">智能倉儲設施</a>
+          <a href="track.html" class="hover:text-white transition">貨件追蹤</a>
+          <a href="about.html" class="hover:text-white transition">關於我們</a>
+        </div>
+      </div>
+      <div class="pt-6 text-center text-slate-500 text-[11px]">
+        © 2024 堅強貨運有限公司 版權所有 • 香港新界元朗青山公路88號 貿易中心12樓1201室
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
