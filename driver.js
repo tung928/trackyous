@@ -520,7 +520,7 @@ function closeSuccessModal() {
 
 function openCustomerTrackingPage() {
   if (!activePackage) return;
-  window.open(`index.html?track=${activePackage.trackingNumber}`, '_blank');
+  window.open(`track.html?track=${activePackage.trackingNumber}`, '_blank');
   closeSuccessModal();
 }
 

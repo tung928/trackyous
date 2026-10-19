@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrackYourS | Package Tracking Demo 包裹即時追蹤</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Leaflet CSS for Interactive Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-500 selection:text-white">
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="bg-slate-900 text-slate-300 text-xs px-4 py-2 border-b border-slate-800 flex justify-between items-center">
+    <div class="flex items-center space-x-2">
+      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span>
+        <span data-i18n="demo_badge">示範模式 (無需資料庫)</span>
+      </span>
+      <span class="hidden sm:inline text-slate-400" data-i18n="demo_sub">| 可點選範例包裹或輸入任意單號</span>
+    </div>
+    <div class="flex items-center space-x-4">
+      <button id="toggleSimulationBtn" onclick="toggleSimulation()" class="hover:text-white transition flex items-center gap-1 text-slate-300">
+        <i data-lucide="play-circle" class="w-3.5 h-3.5 text-blue-400"></i>
+        <span><span data-i18n="sim_label">司機即時模擬:</span> <span id="simStatusBadge" class="font-bold text-amber-400" data-i18n="sim_off">關閉</span></span>
+      </button>
+      <span class="text-slate-500">|</span>
+      <span class="text-slate-400"><span data-i18n="hub_status">全球物流中心狀態:</span> <strong class="text-emerald-400" data-i18n="hub_optimal">運作正常</strong></span>
+    </div>
+  </div>
+
+  <!-- HEADER NAVIGATION -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm/50 backdrop-blur-md bg-white/95">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="resetToSample('TRK-892341')">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
+          <i data-lucide="package-search" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <span class="text-xl font-bold tracking-tight text-slate-900">Track<span class="text-blue-600">YourS</span></span>
+          <span class="text-[10px] block font-semibold text-slate-400 uppercase tracking-wider -mt-1">Package Intelligence</span>
+        </div>
+      </div>
+
+      <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-600">
+        <a href="#trackingSection" class="text-blue-600 hover:text-blue-700" data-i18n="nav_track">追蹤包裹</a>
+        <a href="#howItWorks" class="hover:text-slate-900 transition" data-i18n="nav_how">運作原理</a>
+        <a href="#carrierSupported" class="hover:text-slate-900 transition" data-i18n="nav_carriers">支援物流商</a>
+        <a href="#faqSection" class="hover:text-slate-900 transition" data-i18n="nav_faq">常見問題</a>
+        <a href="driver.html" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 hover:bg-blue-100 font-semibold border border-blue-200 transition shadow-xs">
+          <i data-lucide="truck" class="w-3.5 h-3.5"></i>
+          <span data-i18n="nav_driver">外送員/站所更新端</span>
+        </a>
+      </nav>
+
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- BACK TO COMPANY HOMEPAGE -->
+        <a href="index.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition shadow-xs">
+          <i data-lucide="home" class="w-3.5 h-3.5 text-blue-600"></i>
+          <span>公司首頁</span>
+        </a>
+
+        <!-- DRIVER / STAFF PORTAL BUTTON -->
+        <a href="driver.html" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold rounded-lg text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 transition shadow-sm">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-amber-700"></i>
+          <span data-i18n="btn_driver_portal" class="hidden sm:inline">外送員/站所端</span>
+        </a>
+
+        <!-- LANGUAGE SWITCHER DROPDOWN -->
+        <div class="relative">
+          <button id="langDropdownBtn" onclick="toggleLangMenu()" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold rounded-lg text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition shadow-sm">
+            <i data-lucide="globe" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span id="currentLangLabel">繁體中文</span>
+            <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400"></i>
+          </button>
+          <div id="langMenu" class="hidden absolute right-0 mt-1.5 w-32 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 text-xs">
+            <button onclick="setLanguage('zh-TW')" class="w-full text-left px-3 py-2 hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between font-medium">
+              <span>繁體中文</span>
+              <span id="check-zh" class="text-blue-600 font-bold">✓</span>
+            </button>
+            <button onclick="setLanguage('en')" class="w-full text-left px-3 py-2 hover:bg-blue-50 hover:text-blue-600 flex items-center justify-between font-medium">
+              <span>English</span>
+              <span id="check-en" class="text-blue-600 font-bold hidden">✓</span>
+            </button>
+          </div>
+        </div>
+
+        <button onclick="openModal('notificationModal')" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-700 bg-slate-100 hover:bg-slate-200 transition">
+          <i data-lucide="bell" class="w-3.5 h-3.5"></i>
+          <span data-i18n="btn_alerts">配送提醒</span>
+        </button>
+        <button onclick="window.print()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition shadow-sm">
+          <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline" data-i18n="btn_print">列印憑證</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-grow">
+
+    <!-- HERO & SEARCH SECTION -->
+    <section class="bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white pt-12 pb-20 px-4 sm:px-6 relative overflow-hidden">
+      <!-- Background subtle grid & glow -->
+      <div class="absolute inset-0 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:24px_24px] opacity-15 pointer-events-none"></div>
+      <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-500/20 blur-3xl rounded-full pointer-events-none"></div>
+
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-400/20 text-blue-300 text-xs font-medium mb-4">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-blue-400"></i>
+          <span data-i18n="hero_badge">全方位包裹追蹤與動態視覺化平台</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-4">
+          <span data-i18n="hero_title_1">即時掌握您的包裹</span> <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-cyan-300" data-i18n="hero_title_highlight">最新動態</span>
+        </h1>
+        <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto mb-8" data-i18n="hero_desc">
+          輸入任何追蹤單號，即刻查閱轉運節點、即時 GPS 路線定位、預計送達時間與外送員動態。
+        </p>
+
+        <!-- TRACKING INPUT BOX -->
+        <div class="bg-white/10 backdrop-blur-md p-2 sm:p-3 rounded-2xl shadow-2xl border border-white/20 max-w-2xl mx-auto">
+          <form id="trackingForm" onsubmit="handleTrack(event)" class="flex flex-col sm:flex-row gap-2">
+            <div class="relative flex-grow">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                <i data-lucide="search" class="w-5 h-5"></i>
+              </div>
+              <input 
+                type="text" 
+                id="trackingInput" 
+                placeholder="例如：TRK-892341 或輸入任意單號..."
+                data-i18n-placeholder="input_placeholder"
+                class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white text-slate-900 placeholder-slate-400 font-medium text-sm sm:text-base focus:outline-none focus:ring-4 focus:ring-blue-500/40 shadow-inner"
+                autocomplete="off"
+                required
+              />
+              <button 
+                type="button" 
+                onclick="clearInput()" 
+                id="clearBtn" 
+                class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </div>
+            <button 
+              type="submit" 
+              class="px-7 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 transition transform active:scale-95">
+              <span data-i18n="btn_track">立即追蹤</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </form>
+        </div>
+
+        <!-- PRESET SAMPLES QUICK SELECT -->
+        <div class="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs">
+          <span class="text-slate-400 font-medium" data-i18n="preset_title">試試預設情境：</span>
+          
+          <button onclick="loadPreset('TRK-892341')" class="preset-btn px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 transition flex items-center gap-1.5 active:bg-blue-600">
+            <span class="w-2 h-2 rounded-full bg-blue-400 animate-ping"></span>
+            <span data-i18n="preset_out_for_delivery">🚚 派送中</span>
+          </button>
+
+          <button onclick="loadPreset('DHL-492104')" class="preset-btn px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 transition flex items-center gap-1.5">
+            <span data-i18n="preset_in_transit">✈️ 運送中 (航空快遞)</span>
+          </button>
+
+          <button onclick="loadPreset('FDX-771920')" class="preset-btn px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 transition flex items-center gap-1.5">
+            <span data-i18n="preset_delivered">✅ 已送達 (附照片簽收)</span>
+          </button>
+
+          <button onclick="loadPreset('UPS-339218')" class="preset-btn px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 transition flex items-center gap-1.5">
+            <span data-i18n="preset_weather_delay">⚠️ 天候延誤 / 異常</span>
+          </button>
+
+          <button onclick="loadPreset('USPS-110293')" class="preset-btn px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 transition flex items-center gap-1.5">
+            <span data-i18n="preset_order_placed">📦 訂單已建立</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRACKING RESULTS DASHBOARD (DYNAMIC) -->
+    <section id="trackingSection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 pb-16">
+      
+      <!-- MAIN STATUS HERO CARD -->
+      <div class="bg-white rounded-2xl shadow-xl border border-slate-200/80 overflow-hidden mb-8 transition-all duration-300">
+        
+        <!-- CARD TOP BAR -->
+        <div class="p-6 sm:p-8 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <div class="flex flex-wrap items-center gap-3 mb-2">
+              <span id="carrierTag" class="px-2.5 py-1 rounded-md text-xs font-bold tracking-wide uppercase bg-blue-500/20 text-blue-300 border border-blue-400/30">
+                DHL Express
+              </span>
+              <span class="text-xs text-slate-400" data-i18n="tracking_no_label">追蹤單號：</span>
+              <span id="displayTrackingNumber" class="text-sm font-mono font-bold tracking-wider text-white">TRK-892341</span>
+              <button onclick="copyTrackingNumber()" title="Copy Tracking Number" class="text-slate-400 hover:text-white transition">
+                <i data-lucide="copy" class="w-4 h-4"></i>
+              </button>
+              <span id="copyToast" class="text-[11px] text-emerald-400 font-semibold opacity-0 transition-opacity" data-i18n="copy_toast">已複製！</span>
+            </div>
+            
+            <h2 id="currentStatusTitle" class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-3">
+              派送中 (Out for Delivery)
+            </h2>
+            <p id="currentStatusDescription" class="text-slate-300 text-sm mt-1 max-w-xl">
+              您的包裹已由專屬外送員 Alex Mercer 裝車派送中，預計今日下午 4:30 前送達收件地址。
+            </p>
+          </div>
+
+          <!-- ESTIMATED DELIVERY BADGE -->
+          <div class="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/10 min-w-[240px] flex flex-col justify-center">
+            <span class="text-[11px] uppercase tracking-wider text-slate-300 font-semibold flex items-center gap-1.5">
+              <i data-lucide="calendar" class="w-3.5 h-3.5 text-blue-400"></i>
+              <span data-i18n="est_delivery_title">預計送達時間</span>
+            </span>
+            <span id="estimatedDate" class="text-xl font-bold text-white mt-1">今天 (10月16日)</span>
+            <span id="estimatedWindow" class="text-xs text-slate-300 font-medium mt-0.5">預估時段：下午 1:30 – 4:30</span>
+          </div>
+        </div>
+
+        <!-- PROGRESS BAR / STEPPER -->
+        <div class="p-6 sm:p-8 bg-slate-50 border-b border-slate-200">
+          <div class="max-w-4xl mx-auto">
+            <div id="stepperContainer" class="relative">
+              <!-- Steps will be injected dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- SHIPMENT ROUTE SUMMARY STRIP -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-6 sm:px-8 border-b border-slate-100 text-xs sm:text-sm bg-white">
+          <div>
+            <span class="text-slate-400 block font-medium" data-i18n="from_label">出發地 (起點)</span>
+            <span id="originLocation" class="font-bold text-slate-800 text-sm sm:text-base mt-0.5 block">美國 加州 舊金山</span>
+            <span id="originHub" class="text-slate-500 text-xs">舊金山國際航空貨運中心</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block font-medium" data-i18n="to_label">目的地 (終點)</span>
+            <span id="destinationLocation" class="font-bold text-slate-800 text-sm sm:text-base mt-0.5 block">美國 華盛頓州 西雅圖</span>
+            <span id="destinationAddress" class="text-slate-500 text-xs">西雅圖市長青路 742 號</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block font-medium" data-i18n="service_type_label">服務類型</span>
+            <span id="serviceLevel" class="font-bold text-slate-800 text-sm sm:text-base mt-0.5 block">全球特快專遞</span>
+            <span id="packageWeight" class="text-slate-500 text-xs">2.4 kg / 5.3 lbs</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block font-medium" data-i18n="security_label">簽收與安全保障</span>
+            <span id="signatureRequired" class="font-bold text-slate-800 text-sm sm:text-base mt-0.5 block">需收件人親簽</span>
+            <span id="insuranceTag" class="text-emerald-600 font-medium text-xs">已全額投保</span>
+          </div>
+        </div>
+
+        <!-- TWO COLUMN DETAILS & MAP -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-slate-200">
+          
+          <!-- LEFT COLUMN: LIVE MAP & COURIER DISPATCH -->
+          <div class="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-2">
+                  <div class="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse"></div>
+                  <h3 class="font-bold text-slate-900 text-base sm:text-lg" data-i18n="live_route_title">即時轉運與配送地圖</h3>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span id="liveMapBadge" class="text-xs bg-emerald-100 text-emerald-800 font-medium px-2 py-0.5 rounded-full flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> <span data-i18n="gps_active">GPS 連線中</span>
+                  </span>
+                  <button onclick="resetMapView()" class="text-xs text-slate-500 hover:text-slate-800 border rounded px-2 py-0.5" data-i18n="btn_center_map">
+                    地圖置中
+                  </button>
+                </div>
+              </div>
+
+              <!-- MAP CONTAINER -->
+              <div class="relative rounded-xl overflow-hidden border border-slate-200 shadow-inner h-80 sm:h-96 z-10" id="mapContainer">
+                <div id="leafletMap" class="w-full h-full"></div>
+                <!-- Map overlay info card -->
+                <div id="mapOverlayInfo" class="absolute bottom-3 left-3 right-3 sm:right-auto bg-white/95 backdrop-blur-md p-3 rounded-lg shadow-lg border border-slate-200/80 text-xs z-[1000] flex items-center justify-between sm:gap-4">
+                  <div class="flex items-center gap-2">
+                    <div class="w-7 h-7 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
+                      <i data-lucide="navigation" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                      <span class="text-slate-400 block text-[10px] uppercase font-semibold" data-i18n="courier_pos_label">外送員當前位置</span>
+                      <span id="currentStopName" class="font-bold text-slate-800">西雅圖市中心 第四大道街區</span>
+                    </div>
+                  </div>
+                  <div class="text-right pl-3 border-l border-slate-200">
+                    <span class="text-slate-400 block text-[10px] uppercase font-semibold" data-i18n="stops_away_label">剩餘站數</span>
+                    <span id="stopsRemaining" class="font-bold text-blue-600 text-sm">3 站後抵達</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- COURIER INFO CARD OR PROOF OF DELIVERY CARD -->
+            <div id="driverOrProofCard" class="mt-6 p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <!-- Rendered via app.js -->
+            </div>
+
+          </div>
+
+          <!-- RIGHT COLUMN: DETAILED ACTIVITY TIMELINE & QUICK ACTIONS -->
+          <div class="lg:col-span-5 p-6 sm:p-8 bg-white flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-bold text-slate-900 text-base sm:text-lg flex items-center gap-2">
+                  <i data-lucide="history" class="w-5 h-5 text-slate-600"></i>
+                  <span data-i18n="activity_history_title">運送軌跡歷程</span>
+                </h3>
+                <span id="eventsCount" class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
+                  5 個節點
+                </span>
+              </div>
+
+              <!-- TIMELINE LIST -->
+              <div id="timelineContainer" class="relative pl-6 space-y-6 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200">
+                <!-- Timeline items will be injected here -->
+              </div>
+            </div>
+
+            <!-- DELIVERY MANAGEMENT UTILITIES -->
+            <div class="mt-8 pt-6 border-t border-slate-200">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3" data-i18n="manage_delivery_title">管理與變更配送</h4>
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <button onclick="openModal('rescheduleModal')" class="p-2.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-left font-medium text-slate-700 transition flex items-center gap-2">
+                  <i data-lucide="calendar-clock" class="w-4 h-4 text-blue-600"></i>
+                  <span data-i18n="btn_reschedule">改期配送</span>
+                </button>
+                <button onclick="openModal('holdPickupModal')" class="p-2.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-left font-medium text-slate-700 transition flex items-center gap-2">
+                  <i data-lucide="store" class="w-4 h-4 text-indigo-600"></i>
+                  <span data-i18n="btn_hold_hub">轉送自提櫃</span>
+                </button>
+                <button onclick="openModal('notificationModal')" class="p-2.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-left font-medium text-slate-700 transition flex items-center gap-2">
+                  <i data-lucide="bell-ring" class="w-4 h-4 text-amber-500"></i>
+                  <span data-i18n="btn_updates">簡訊 / 電郵通知</span>
+                </button>
+                <button onclick="openProofModal()" class="p-2.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-left font-medium text-slate-700 transition flex items-center gap-2">
+                  <i data-lucide="file-check-2" class="w-4 h-4 text-emerald-600"></i>
+                  <span data-i18n="btn_receipt">官方簽收收據</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- EDUCATIONAL: HOW PACKAGE TRACKING WORKS -->
+    <section id="howItWorks" class="py-16 bg-white border-t border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <span class="text-blue-600 font-bold text-xs uppercase tracking-wider" data-i18n="hiw_badge">物流科技架構</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1" data-i18n="hiw_title">包裹追蹤技術背後的運作原理</h2>
+          <p class="text-slate-500 text-sm mt-2" data-i18n="hiw_desc">每個包裹在各物流環節皆經由條碼光學掃描與物聯網車載系統，向使用者提供毫秒級即時狀態更新。</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 text-center flex flex-col items-center">
+            <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold mb-4">
+              1
+            </div>
+            <h4 class="font-bold text-slate-900 mb-1 text-base" data-i18n="hiw_s1_t">條碼電子標籤建立</h4>
+            <p class="text-xs text-slate-500 leading-relaxed" data-i18n="hiw_s1_d">賣家透過電子數據交換 (EDI) 或 API 產生專屬物流條碼面單 (Code 128 / 二維碼)，登錄寄送規格與地址。</p>
+          </div>
+
+          <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 text-center flex flex-col items-center">
+            <div class="w-12 h-12 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold mb-4">
+              2
+            </div>
+            <h4 class="font-bold text-slate-900 mb-1 text-base" data-i18n="hiw_s2_t">分揀中心光學掃描</h4>
+            <p class="text-xs text-slate-500 leading-relaxed" data-i18n="hiw_s2_d">高速光學隧道掃描儀在輸送帶上自動識別條碼，即時回傳入庫、分揀與裝箱時間戳記。</p>
+          </div>
+
+          <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 text-center flex flex-col items-center">
+            <div class="w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold mb-4">
+              3
+            </div>
+            <h4 class="font-bold text-slate-900 mb-1 text-base" data-i18n="hiw_s3_t">幹線運輸與海關申報</h4>
+            <p class="text-xs text-slate-500 leading-relaxed" data-i18n="hiw_s3_d">航空或跨省貨車運送集裝箱，車載物聯網傳送 GPS 經緯度，並於關口進行電子通關。</p>
+          </div>
+
+          <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 text-center flex flex-col items-center">
+            <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold mb-4">
+              4
+            </div>
+            <h4 class="font-bold text-slate-900 mb-1 text-base" data-i18n="hiw_s4_t">末端派送與數位簽收</h4>
+            <p class="text-xs text-slate-500 leading-relaxed" data-i18n="hiw_s4_d">外送員手持終端指派最後一哩路，送達時精確記錄 GPS 座標、電子手寫簽名與門前拍照存證。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUPPORTED CARRIERS -->
+    <section id="carrierSupported" class="py-12 bg-slate-50 border-t border-slate-200">
+      <div class="max-w-6xl mx-auto px-4 text-center">
+        <h3 class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-6" data-i18n="carriers_title">支援全球各大主流快遞與郵政系統</h3>
+        <div class="flex flex-wrap items-center justify-center gap-8 sm:gap-14 opacity-70 grayscale hover:grayscale-0 transition duration-300">
+          <div class="font-black text-2xl tracking-tighter text-yellow-600">DHL<span class="text-red-600 font-normal text-sm">Express</span></div>
+          <div class="font-black text-2xl tracking-tighter text-purple-700">Fed<span class="text-orange-500">Ex</span></div>
+          <div class="font-black text-2xl tracking-tighter text-amber-800">UPS</div>
+          <div class="font-black text-xl tracking-tight text-blue-900">UNITED STATES <span class="font-light">POSTAL SERVICE</span></div>
+          <div class="font-black text-xl tracking-tight text-red-600">Royal Mail</div>
+          <div class="font-black text-xl tracking-tight text-blue-600">DPD</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section id="faqSection" class="py-16 bg-white border-t border-slate-200">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-10">
+          <h2 class="text-2xl font-bold text-slate-900" data-i18n="faq_title">常見問題解答</h2>
+          <p class="text-slate-500 text-sm mt-1" data-i18n="faq_sub">深入了解物流運送狀態與常見疑問</p>
+        </div>
+
+        <div class="space-y-4">
+          <details class="group bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <summary class="font-semibold text-slate-800 cursor-pointer list-none flex justify-between items-center text-sm sm:text-base">
+              <span data-i18n="faq_q1">「運送中 (In Transit)」與「派送中 (Out for Delivery)」有何不同？</span>
+              <span class="transition group-open:rotate-180">
+                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+              </span>
+            </summary>
+            <p class="text-slate-600 text-xs sm:text-sm mt-3 leading-relaxed" data-i18n-html="faq_a1">
+              <strong>「運送中 (In Transit)」</strong>代表包裹正於跨國航空、幹線貨車或各大分揀轉運中心之間移動。<strong>「派送中 (Out for Delivery)」</strong>則表示包裹已抵達當地的末端營業所，並已裝入外送專車，預計於當天送達您的收件地址。
+            </p>
+          </details>
+
+          <details class="group bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <summary class="font-semibold text-slate-800 cursor-pointer list-none flex justify-between items-center text-sm sm:text-base">
+              <span data-i18n="faq_q2">為何追蹤動態超過 24 至 48 小時沒有更新？</span>
+              <span class="transition group-open:rotate-180">
+                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+              </span>
+            </summary>
+            <p class="text-slate-600 text-xs sm:text-sm mt-3 leading-relaxed" data-i18n-html="faq_a2">
+              在長途跨省陸運或跨國長途飛行期間，貨物在途中不會經過掃描站，直到班機降落或貨車抵達下一站大型區域分揀樞紐後才會更新狀態。這屬於正常運送流程，並不代表包裹遺失。
+            </p>
+          </details>
+
+          <details class="group bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <summary class="font-semibold text-slate-800 cursor-pointer list-none flex justify-between items-center text-sm sm:text-base">
+              <span data-i18n="faq_q3">我可以更改送貨地址或指定司機放置包裹的位置嗎？</span>
+              <span class="transition group-open:rotate-180">
+                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+              </span>
+            </summary>
+            <p class="text-slate-600 text-xs sm:text-sm mt-3 leading-relaxed" data-i18n-html="faq_a3">
+              可以！您可使用上方的<strong>「配送備註」</strong>按鈕留下具體交代（例如：請放在門口盆栽後、大門密碼），或點選<strong>「轉送智能自提櫃」</strong>以便於您方便的時段 24 小時隨時取件。
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-slate-400 text-xs border-t border-slate-800 py-8 px-4">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-2">
+        <div class="w-6 h-6 rounded-lg bg-blue-600 flex items-center justify-center text-white">
+          <i data-lucide="package" class="w-3.5 h-3.5"></i>
+        </div>
+        <span class="font-bold text-white text-sm">TrackYourS</span>
+        <span class="text-slate-500" data-i18n="footer_sub">— 獨立前端包裹追蹤展示系統</span>
+      </div>
+      <p class="text-slate-500 text-center sm:text-right" data-i18n="footer_desc">
+        無須資料庫與後端伺服器依賴，純前端實時動態展示。完全支援任何現代網頁瀏覽器。
+      </p>
+    </div>
+  </footer>
+
+  <!-- MODALS -->
+
+  <!-- NOTIFICATION ALERTS MODAL -->
+  <div id="notificationModal" class="modal-backdrop hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
+      <div class="flex justify-between items-start mb-4">
+        <div>
+          <h3 class="font-bold text-slate-900 text-lg" data-i18n="m_alerts_title">訂閱包裹動態提醒</h3>
+          <p class="text-xs text-slate-500" data-i18n="m_alerts_sub">包裹狀態有所變動時，即時透過免費簡訊或電子郵件通知您。</p>
+        </div>
+        <button onclick="closeModal('notificationModal')" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <form onsubmit="handleSubscribeAlerts(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="m_alerts_email">電子郵件地址</label>
+          <input type="email" placeholder="you@example.com" class="w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="m_alerts_phone">手機號碼 (用於 SMS / WhatsApp 簡訊通知)</label>
+          <input type="tel" placeholder="+886 912 345 678" class="w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        </div>
+        <div class="space-y-2 pt-2">
+          <label class="flex items-center text-xs text-slate-700 font-medium cursor-pointer">
+            <input type="checkbox" checked class="rounded text-blue-600 mr-2">
+            <span data-i18n="m_alerts_c1">當包裹出發派送時立即通知</span>
+          </label>
+          <label class="flex items-center text-xs text-slate-700 font-medium cursor-pointer">
+            <input type="checkbox" checked class="rounded text-blue-600 mr-2">
+            <span data-i18n="m_alerts_c2">當成功送達並附帶照片證明時立即通知</span>
+          </label>
+        </div>
+        <button type="submit" class="w-full py-2.5 rounded-lg bg-blue-600 text-white font-semibold text-sm hover:bg-blue-700 transition" data-i18n="m_alerts_btn">
+          確認訂閱通知
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- RESCHEDULE MODAL -->
+  <div id="rescheduleModal" class="modal-backdrop hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
+      <div class="flex justify-between items-start mb-4">
+        <div>
+          <h3 class="font-bold text-slate-900 text-lg" data-i18n="m_resched_title">重新預約配送日期</h3>
+          <p class="text-xs text-slate-500" data-i18n="m_resched_sub">選擇最符合您時間的方便送達時段。</p>
+        </div>
+        <button onclick="closeModal('rescheduleModal')" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <form onsubmit="handleReschedule(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="m_resched_date">選擇新配送日期</label>
+          <input type="date" id="rescheduleDateInput" class="w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="m_resched_win">偏好配送時段</label>
+          <select class="w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            <option data-i18n="m_resched_w1">上午 (08:00 AM – 12:00 PM)</option>
+            <option data-i18n="m_resched_w2">下午 (12:00 PM – 05:00 PM)</option>
+            <option data-i18n="m_resched_w3">晚間 (05:00 PM – 08:30 PM)</option>
+          </select>
+        </div>
+        <button type="submit" class="w-full py-2.5 rounded-lg bg-blue-600 text-white font-semibold text-sm hover:bg-blue-700 transition" data-i18n="m_resched_btn">
+          確認變更預約
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- HOLD AT PICKUP POINT MODAL -->
+  <div id="holdPickupModal" class="modal-backdrop hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
+      <div class="flex justify-between items-start mb-4">
+        <div>
+          <h3 class="font-bold text-slate-900 text-lg" data-i18n="m_hold_title">轉送至鄰近智能自提櫃</h3>
+          <p class="text-xs text-slate-500" data-i18n="m_hold_sub">將包裹轉送至 24 小時智慧儲物櫃或合作超商自提點。</p>
+        </div>
+        <button onclick="closeModal('holdPickupModal')" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="space-y-3 mb-5">
+        <label class="block p-3 rounded-xl border border-blue-500 bg-blue-50/50 cursor-pointer">
+          <input type="radio" name="pickupLocation" checked class="text-blue-600">
+          <span class="font-bold text-xs text-slate-800 ml-2" data-i18n="m_hold_opt1_title">市中心 24小時 智慧取件櫃</span>
+          <span class="block text-[11px] text-slate-500 ml-5" data-i18n="m_hold_opt1_desc">松高路 500 號 (距離 0.4 公里) • 全天 24 小時開放</span>
+        </label>
+        <label class="block p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer">
+          <input type="radio" name="pickupLocation" class="text-blue-600">
+          <span class="font-bold text-xs text-slate-800 ml-2" data-i18n="m_hold_opt2_title">FedEx / 合作便利商店門市</span>
+          <span class="block text-[11px] text-slate-500 ml-5" data-i18n="m_hold_opt2_desc">忠孝東路四段 1200 號 • 週一至週六 8:00 AM - 9:00 PM</span>
+        </label>
+      </div>
+      <button onclick="handleHoldPickup()" class="w-full py-2.5 rounded-lg bg-indigo-600 text-white font-semibold text-sm hover:bg-indigo-700 transition" data-i18n="m_hold_btn">
+        確認轉送至自提櫃
+      </button>
+    </div>
+  </div>
+
+  <!-- DELIVERY NOTE / INSTRUCTIONS MODAL -->
+  <div id="instructionsModal" class="modal-backdrop hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
+      <div class="flex justify-between items-start mb-4">
+        <div>
+          <h3 class="font-bold text-slate-900 text-lg" data-i18n="m_note_title">外送員配送備註</h3>
+          <p class="text-xs text-slate-500" data-i18n="m_note_sub">此備註將直接顯示於外送員的手持工作終端設備上。</p>
+        </div>
+        <button onclick="closeModal('instructionsModal')" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <form onsubmit="handleSaveDriverNote(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="m_note_pref">指定放置地點偏好</label>
+          <select class="w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            <option data-i18n="m_note_opt1">門前廊下 / 隱蔽盆栽後方</option>
+            <option data-i18n="m_note_opt2">大樓管理室 / 物業警衛代收</option>
+            <option data-i18n="m_note_opt3">車庫側門旁</option>
+            <option data-i18n="m_note_opt4">按門鈴親自交付手中</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1" data-i18n="m_note_code">門禁密碼 / 特殊交待事項</label>
+          <textarea id="driverNoteInput" rows="3" placeholder="例如：大門密碼 #4910。若下雨請勿放置於無遮雨處。" data-i18n-placeholder="m_note_ph" class="w-full px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+        </div>
+        <button type="submit" class="w-full py-2.5 rounded-lg bg-blue-600 text-white font-semibold text-sm hover:bg-blue-700 transition" data-i18n="m_note_btn">
+          儲存外送員指示
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- CALL COURIER MODAL -->
+  <div id="callDriverModal" class="modal-backdrop hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 text-center">
+      <div class="w-16 h-16 rounded-full bg-blue-50 text-blue-600 mx-auto flex items-center justify-center mb-4">
+        <i data-lucide="phone" class="w-8 h-8"></i>
+      </div>
+      <h3 class="font-bold text-slate-900 text-lg mb-1" data-i18n="m_call_title">致電專屬外送員</h3>
+      <p class="text-xs text-slate-500 mb-4" data-i18n="m_call_sub">系統將使用加密虛擬安全號碼撥通您的外送員 Alex Mercer。</p>
+      <div class="bg-slate-100 p-3 rounded-xl text-xs font-mono text-slate-700 mb-5">
+        加密中繼門號: +886 (2) 555-0199 轉 42
+      </div>
+      <div class="flex gap-2">
+        <button onclick="closeModal('callDriverModal')" class="flex-1 py-2 text-xs font-semibold rounded-lg border border-slate-300 hover:bg-slate-50" data-i18n="m_call_cancel">取消</button>
+        <button onclick="simulateCall()" class="flex-1 py-2 text-xs font-semibold rounded-lg bg-emerald-600 text-white hover:bg-emerald-700" data-i18n="m_call_connect">立即撥打</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROOF OF DELIVERY / PHOTO MODAL -->
+  <div id="proofModal" class="modal-backdrop hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200">
+      <div class="flex justify-between items-start mb-4">
+        <div>
+          <h3 class="font-bold text-slate-900 text-lg" data-i18n="m_proof_title">官方簽收送達收據</h3>
+          <p class="text-xs text-slate-500" data-i18n="m_proof_sub">物流承運商官方數位驗證紀錄</p>
+        </div>
+        <button onclick="closeModal('proofModal')" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        <div id="proofPhotoContainer" class="rounded-xl overflow-hidden border border-slate-200 relative bg-slate-100 max-h-60 flex items-center justify-center">
+          <img id="proofPhotoImg" src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80" alt="Delivery Proof Photo" class="w-full h-48 object-cover">
+          <div class="absolute bottom-2 left-2 bg-black/70 text-white text-[10px] px-2 py-0.5 rounded font-mono">
+            GPS: 47.6062° N, 122.3321° W • Timestamp Verified
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 text-xs bg-slate-50 p-3 rounded-xl border border-slate-200">
+          <div>
+            <span class="text-slate-400 block" data-i18n="m_proof_recby">簽收人 / 放置處：</span>
+            <span id="proofReceivedBy" class="font-bold text-slate-800">門前廊下 / 收件本人</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block" data-i18n="m_proof_delat">送達時間：</span>
+            <span id="proofDeliveredAt" class="font-bold text-slate-800">10月16日 14:15</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block" data-i18n="m_proof_agent">承運外送專員：</span>
+            <span id="proofAgent" class="font-bold text-slate-800">Alex Mercer (工號: 8812)</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block" data-i18n="m_proof_sig">簽核驗證模式：</span>
+            <span id="proofSignature" class="font-bold text-emerald-600">免接觸拍照數位驗證</span>
+          </div>
+        </div>
+
+        <div class="flex gap-2">
+          <button onclick="window.print()" class="w-full py-2.5 rounded-lg bg-blue-600 text-white font-semibold text-xs hover:bg-blue-700 flex items-center justify-center gap-1.5">
+            <i data-lucide="printer" class="w-4 h-4"></i>
+            <span data-i18n="m_proof_print">列印正式簽收單</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl border border-slate-700 flex items-center gap-3 text-sm">
+      <i id="toastIcon" data-lucide="check-circle" class="w-5 h-5 text-emerald-400"></i>
+      <span id="toastMessage">已成功完成。</span>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
