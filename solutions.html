@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>解決方案與標準化流程 | 專業適配 • 一體化交付 — 堅強貨運有限公司</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            corporate: {
+              navy: '#0a2540',
+              deep: '#0f2b48',
+              blue: '#16325c',
+              red: '#c81e2b',
+              redHover: '#b91c1c',
+              slate: '#64748b',
+              light: '#f8fafc'
+            }
+          },
+          fontFamily: {
+            sans: ['"Noto Sans TC"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+    .custom-hover-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .custom-hover-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 30px -10px rgba(10, 37, 64, 0.12);
+    }
+    .node-line {
+      position: relative;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-[#c81e2b] selection:text-white flex flex-col min-h-screen">
+
+  <!-- HEADER NAVIGATION -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- LOGO -->
+      <a href="index.html" class="flex items-center gap-3 group">
+        <svg class="w-9 h-9" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 8L20 8L12 32L0 32L8 8Z" fill="#c81e2b"/>
+          <path d="M18 8L30 8L22 32L10 32L18 8Z" fill="#16325c"/>
+          <path d="M28 8L40 8L32 32L20 32L28 8Z" fill="#0a2540"/>
+        </svg>
+        <div>
+          <div class="text-2xl font-black tracking-tight text-[#0a2540] leading-none">堅強貨運</div>
+          <div class="text-[9px] font-bold text-slate-600 tracking-wider uppercase mt-1">KIN KEUNG TRANSPORTATION LTD.</div>
+        </div>
+      </a>
+
+      <!-- NAVIGATION LINKS -->
+      <nav class="hidden xl:flex items-center space-x-7 text-sm font-semibold text-slate-700">
+        <a href="index.html" class="hover:text-[#c81e2b] transition">首頁</a>
+        <a href="services.html" class="hover:text-[#c81e2b] transition">服務範圍</a>
+        <a href="solutions.html" class="text-[#c81e2b] border-b-2 border-[#c81e2b] pb-1">解決方案與流程</a>
+        <a href="facility.html" class="hover:text-[#c81e2b] transition">智能倉儲設施</a>
+        <a href="track.html" class="hover:text-[#c81e2b] transition">追蹤查詢</a>
+        <a href="about.html" class="hover:text-[#c81e2b] transition">關於我們</a>
+        <a href="index.html#news" class="hover:text-[#c81e2b] transition">最新消息</a>
+        <a href="index.html#contact" class="hover:text-[#c81e2b] transition">聯絡我們</a>
+      </nav>
+
+      <!-- RIGHT ACTIONS -->
+      <div class="flex items-center space-x-4">
+        <a href="services.html#quote-form" class="bg-[#c81e2b] hover:bg-[#b91c1c] text-white px-5 py-2.5 rounded-md text-sm font-bold shadow-sm transition active:scale-95">
+          取得報價
+        </a>
+        <a href="tel:+85212345678" class="hidden sm:flex items-center gap-1.5 text-xs font-bold text-slate-800 pl-2 border-l border-slate-200">
+          <i data-lucide="phone" class="w-3.5 h-3.5 text-[#c81e2b]"></i>
+          <span>+852 1234 5678</span>
+        </a>
+        <a href="driver.html" class="hidden md:inline-flex items-center gap-1 text-xs text-slate-500 hover:text-[#0a2540] border rounded px-2 py-1 bg-slate-50">
+          <i data-lucide="shield" class="w-3.5 h-3.5 text-blue-600"></i>
+          <span>司機/站所端</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-grow">
+
+    <!-- HERO SECTION -->
+    <section class="bg-gradient-to-r from-[#0a2540] via-[#0f2b48] to-[#16325c] text-white py-16 sm:py-20 relative overflow-hidden">
+      <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/20 text-red-300 border border-red-500/30 text-xs font-bold uppercase tracking-wider mb-4">
+          <i data-lucide="git-merge" class="w-3.5 h-3.5"></i>
+          <span>OFFERING UNIFIED CONTROL & TAILORED OPERATIONS</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black tracking-tight mb-4">
+          一體化交付 • 鎖定確定 消除隨機
+        </h1>
+        <p class="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
+          我們以一家公司、一個團隊對全程負責。交付給您的，是清晰、可預期的到貨時間表；將履約拆解為 9 個標準節點，以嚴謹流程替代個人經驗，從根源消除隨機誤差。
+        </p>
+
+        <!-- QUICK NAV ANCHORS -->
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#unified" class="text-xs bg-white/10 hover:bg-white/20 border border-white/15 px-3.5 py-2 rounded-md font-medium transition flex items-center gap-1.5">
+            <i data-lucide="shuffle" class="w-3.5 h-3.5 text-red-400"></i>
+            一體化協同調度
+          </a>
+          <a href="#cargo-risk" class="text-xs bg-white/10 hover:bg-white/20 border border-white/15 px-3.5 py-2 rounded-md font-medium transition flex items-center gap-1.5">
+            <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-red-400"></i>
+            貨物專業適配 7 大分類
+          </a>
+          <a href="#nine-nodes" class="text-xs bg-white/10 hover:bg-white/20 border border-white/15 px-3.5 py-2 rounded-md font-medium transition flex items-center gap-1.5">
+            <i data-lucide="git-commit" class="w-3.5 h-3.5 text-red-400"></i>
+            9 個標準化履約節點
+          </a>
+          <a href="#mechanisms" class="text-xs bg-white/10 hover:bg-white/20 border border-white/15 px-3.5 py-2 rounded-md font-medium transition flex items-center gap-1.5">
+            <i data-lucide="cpu" class="w-3.5 h-3.5 text-emerald-400"></i>
+            雙核心機制與確定結果
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: 一體化交付 / 如同一調度 (SLIDE 3) -->
+    <section id="unified" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-20">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-4 border-b border-slate-200">
+        <div>
+          <div class="text-xs font-bold text-[#c81e2b] tracking-wider uppercase mb-1">UNIFIED CONTROL</div>
+          <h2 class="text-2xl sm:text-3xl font-black text-[#0a2540]">
+            如同一調度 • 一體化交付
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            我們以一家公司、一個團隊 對全程負責，消除跨部門與第三方外判的溝通壁壘。
+          </p>
+        </div>
+        <div class="mt-4 md:mt-0 text-xs font-bold text-slate-600 bg-slate-100 px-4 py-2 rounded-lg border border-slate-200">
+          交付給您的，是清晰、可預期的到貨時間表
+        </div>
+      </div>
+
+      <!-- THREE COLUMNS FROM SLIDE 3 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- CARD 1: 跨境運輸 -->
+        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm custom-hover-card flex flex-col justify-between">
+          <div>
+            <div class="relative h-56 bg-slate-100 overflow-hidden">
+              <img src="assets/cross-border-fleet.png" alt="跨境運輸車隊" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <div class="absolute bottom-4 left-4 right-4 text-white">
+                <div class="text-[10px] uppercase font-bold text-red-300 tracking-wider">CROSS-BORDER TRANSPORTATION</div>
+                <h3 class="text-xl font-black">跨境運輸</h3>
+                <p class="text-xs text-red-200 font-semibold mt-0.5">旺季不溢價，艙位有保障</p>
+              </div>
+            </div>
+            <div class="p-6 space-y-3">
+              <div class="flex items-start gap-2.5 text-xs text-slate-600">
+                <i data-lucide="check" class="w-4 h-4 text-[#c81e2b] mt-0.5 shrink-0"></i>
+                <span><strong>自營福建等重點線路運力</strong>，陸路海關通關手續成熟穩健。</span>
+              </div>
+              <div class="flex items-start gap-2.5 text-xs text-slate-600">
+                <i data-lucide="check" class="w-4 h-4 text-[#c81e2b] mt-0.5 shrink-0"></i>
+                <span><strong>保障旺季艙位確定性與成本穩定</strong>，免於市場劇烈波動溢價與臨時缺艙斷貨風險。</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 pt-0">
+            <span class="inline-block w-full py-2 bg-slate-50 border border-slate-100 text-center text-[11px] font-bold text-[#0a2540] rounded-md">
+              跨境幹線穩定履約
+            </span>
+          </div>
+        </div>
+
+        <!-- CARD 2: 本地配送 -->
+        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm custom-hover-card flex flex-col justify-between">
+          <div>
+            <div class="relative h-56 bg-slate-100 overflow-hidden">
+              <img src="assets/local-delivery-truck.png" alt="堅強貨運本地派送貨卡" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <div class="absolute bottom-4 left-4 right-4 text-white">
+                <div class="text-[10px] uppercase font-bold text-red-300 tracking-wider">LOCAL DELIVERY</div>
+                <h3 class="text-xl font-black">本地配送</h3>
+                <p class="text-xs text-red-200 font-semibold mt-0.5">當日達可承諾，補貨可計算</p>
+              </div>
+            </div>
+            <div class="p-6 space-y-3">
+              <div class="flex items-start gap-2.5 text-xs text-slate-600">
+                <i data-lucide="check" class="w-4 h-4 text-[#c81e2b] mt-0.5 shrink-0"></i>
+                <span><strong>自有車隊覆蓋全港核心節點</strong>，自持牌照司機熟悉各區工商大廈動線。</span>
+              </div>
+              <div class="flex items-start gap-2.5 text-xs text-slate-600">
+                <i data-lucide="check" class="w-4 h-4 text-[#c81e2b] mt-0.5 shrink-0"></i>
+                <span><strong>提供可承諾的當日達方案</strong>，使本地商戶補貨成為可計算的固定成本與精準時間。</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 pt-0">
+            <span class="inline-block w-full py-2 bg-slate-50 border border-slate-100 text-center text-[11px] font-bold text-[#0a2540] rounded-md">
+              全港 18 區即日到府
+            </span>
+          </div>
+        </div>
+
+        <!-- CARD 3: 倉儲管理 -->
+        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm custom-hover-card flex flex-col justify-between">
+          <div>
+            <div class="relative h-56 bg-slate-100 overflow-hidden">
+              <img src="assets/warehouse-racks-aisle.png" alt="立體高庫容貨架巷道" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <div class="absolute bottom-4 left-4 right-4 text-white">
+                <div class="text-[10px] uppercase font-bold text-red-300 tracking-wider">WAREHOUSING MANAGEMENT</div>
+                <h3 class="text-xl font-black">倉儲管理</h3>
+                <p class="text-xs text-red-200 font-semibold mt-0.5">庫存即狀態，出貨即配送</p>
+              </div>
+            </div>
+            <div class="p-6 space-y-3">
+              <div class="flex items-start gap-2.5 text-xs text-slate-600">
+                <i data-lucide="check" class="w-4 h-4 text-[#c81e2b] mt-0.5 shrink-0"></i>
+                <span><strong>倉配數據實時聯動</strong>，WMS 與 TMS 系統深度集成，消除信息孤島。</span>
+              </div>
+              <div class="flex items-start gap-2.5 text-xs text-slate-600">
+                <i data-lucide="check" class="w-4 h-4 text-[#c81e2b] mt-0.5 shrink-0"></i>
+                <span><strong>確保庫存透明與出貨精準匹配配送計劃</strong>，消除在庫等待與信息滯後。</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 pt-0">
+            <span class="inline-block w-full py-2 bg-slate-50 border border-slate-100 text-center text-[11px] font-bold text-[#0a2540] rounded-md">
+              庫存狀態雲端秒級同步
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 2: 貨物專業適配 / 風險定制化操作 (SLIDE 2) -->
+    <section id="cargo-risk" class="py-16 bg-white border-y border-slate-200 scroll-mt-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <div class="text-xs font-bold text-[#c81e2b] tracking-wider uppercase mb-2">TAILORED RISK OPERATIONS</div>
+          <h2 class="text-2xl sm:text-4xl font-black text-[#0a2540]">
+            貨物專業適配 • 風險定制化操作
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 mt-3 leading-relaxed">
+            不同品類貨物具備不同的物理特性與操作風險。我們依據商品屬性提供 7 大專業適配模式，制定標準化防護與控管措施，全方位保障貨品安全與交付品質。
+          </p>
+        </div>
+
+        <!-- 7 CATEGORIES GRID (DIRECTLY FROM SLIDE 2) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <!-- Category 1: 常規貨物 -->
+          <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 custom-hover-card flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-[#0a2540] text-white flex items-center justify-center mb-4">
+                <i data-lucide="package" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-bold text-base text-[#0a2540] mb-1">常規貨物</h3>
+              <div class="text-[10px] uppercase font-bold text-slate-400 mb-3 tracking-wider">Conventional Cargo</div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                適用於零售、鞋服等高頻率周轉日用品，維持您穩定的補貨周期與充裕的流動庫存。
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-200 text-[11px] font-semibold text-[#c81e2b]">
+              高頻周轉 • 穩定補貨
+            </div>
+          </div>
+
+          <!-- Category 2: 重貨大型設備 -->
+          <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 custom-hover-card flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-[#0a2540] text-white flex items-center justify-center mb-4">
+                <i data-lucide="server" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-bold text-base text-[#0a2540] mb-1">重貨大型設備</h3>
+              <div class="text-[10px] uppercase font-bold text-slate-400 mb-3 tracking-wider">Heavy & Large Equipment</div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                針對布卷、咖啡豆、大型電纜、服務器等，配置獨立動線與加固方案，杜絕搬運損耗。
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-200 text-[11px] font-semibold text-[#c81e2b]">
+              獨立動線 • 專業防刮防傾
+            </div>
+          </div>
+
+          <!-- Category 3: 精密易損件 -->
+          <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 custom-hover-card flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-[#0a2540] text-white flex items-center justify-center mb-4">
+                <i data-lucide="cpu" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-bold text-base text-[#0a2540] mb-1">精密易損件</h3>
+              <div class="text-[10px] uppercase font-bold text-slate-400 mb-3 tracking-wider">Precision & Fragile Components</div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                處理精密設備、電子零件，在分揀、裝卸與運輸環節執行強化防震、防摔管控，守護交付的完整性。
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-200 text-[11px] font-semibold text-[#c81e2b]">
+              防震防摔 • 氣墊避震車身
+            </div>
+          </div>
+
+          <!-- Category 4: 特殊行業貨品 -->
+          <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 custom-hover-card flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-[#0a2540] text-white flex items-center justify-center mb-4">
+                <i data-lucide="plane-takeoff" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-bold text-base text-[#0a2540] mb-1">特殊行業貨品</h3>
+              <div class="text-[10px] uppercase font-bold text-slate-400 mb-3 tracking-wider">Specialized Industry Goods</div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                承運飛機航材、嬰兒車、工業設備、藥品等特殊包裝貨品，嚴格遵循行業特定協議，確保操作可追溯、可審計。
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-200 text-[11px] font-semibold text-[#c81e2b]">
+              行業特定協議 • 可追溯審計
+            </div>
+          </div>
+
+          <!-- Category 5: 保稅倉業務 -->
+          <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 custom-hover-card flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-[#16325c] text-white flex items-center justify-center mb-4">
+                <i data-lucide="landmark" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-bold text-base text-[#0a2540] mb-1">保稅倉業務</h3>
+              <div class="text-[10px] uppercase font-bold text-slate-400 mb-3 tracking-wider">Bonded Warehouse Services</div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                提供專業保稅倉服務，專注承運航材、工業設備及特殊包裝貨品，嚴格遵循海關特定協議與放行標準。
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-200 text-[11px] font-semibold text-[#c81e2b]">
+              海關保稅合規 • 快速清關
+            </div>
+          </div>
+
+          <!-- Category 6: 恆溫倉業務 -->
+          <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 custom-hover-card flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-[#16325c] text-white flex items-center justify-center mb-4">
+                <i data-lucide="thermometer-sun" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-bold text-base text-[#0a2540] mb-1">恆溫倉業務</h3>
+              <div class="text-[10px] uppercase font-bold text-slate-400 mb-3 tracking-wider">Temperature-controlled Warehouse</div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                配備精準恆溫倉儲環境，適用藥品及特殊包裝貨物，嚴格執行標準化作業規範，提供安全可追溯的控溫儲運服務。
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-200 text-[11px] font-semibold text-[#c81e2b]">
+              精準溫濕度 • 藥品級儲運
+            </div>
+          </div>
+
+          <!-- Category 7: 凍倉業務 -->
+          <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 custom-hover-card flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-[#16325c] text-white flex items-center justify-center mb-4">
+                <i data-lucide="snowflake" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-bold text-base text-[#0a2540] mb-1">凍倉業務</h3>
+              <div class="text-[10px] uppercase font-bold text-slate-400 mb-3 tracking-wider">Frozen Warehouse Services</div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                高效凍倉儲運，滿足特殊低溫貨品嚴格需求，遵循行業特定協議，確保品質安全與全流程溫度追溯。
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-200 text-[11px] font-semibold text-[#c81e2b]">
+              超低溫冷凍 • 全程不脫冷
+            </div>
+          </div>
+
+          <!-- Category 8: 綜合定制保障方案 -->
+          <div class="bg-gradient-to-br from-[#0a2540] to-[#16325c] text-white p-6 rounded-xl shadow-md flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-white/10 text-red-400 flex items-center justify-center mb-4">
+                <i data-lucide="shield-check" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-bold text-base text-white mb-1">專屬風險評估方案</h3>
+              <div class="text-[10px] uppercase font-bold text-slate-300 mb-3 tracking-wider">Bespoke Risk Assessment</div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                對有特殊裝卸限制、超規尺寸或極高保密要求的項目，由我們專屬項目經理到場勘測並出具 SOP 方案。
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/20">
+              <a href="services.html#quote-form" class="inline-flex items-center gap-1.5 text-xs font-bold text-red-300 hover:text-white transition">
+                <span>申請專家到場評估</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 3: 標準化流程 9 個節點 (SLIDE 4) -->
+    <section id="nine-nodes" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-20">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <div class="text-xs font-bold text-[#c81e2b] tracking-wider uppercase mb-2">STANDARDIZED PROCESS • DUAL-LINE SYNERGY</div>
+        <h2 class="text-2xl sm:text-4xl font-black text-[#0a2540]">
+          鎖定確定 • 消除隨機
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mt-2 max-w-xl mx-auto">
+          我們將履約拆解為 9 個標準節點，以嚴謹流程替代個人經驗，從根源上消除隨機誤差。
+        </p>
+      </div>
+
+      <!-- 9 NODES GRAPHIC & CARDS PROGRESSION -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-10 shadow-sm mb-12">
+        
+        <div class="mb-8 rounded-xl overflow-hidden bg-slate-50 border border-slate-200 p-2 sm:p-4">
+          <img src="assets/process-9nodes.png" alt="9個標準化流程節點圖" class="w-full max-h-[380px] object-contain mx-auto">
+        </div>
+
+        <!-- 9 STEPS GRID -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-9 gap-3 text-center">
+          
+          <div class="p-3 rounded-lg bg-slate-50 border border-slate-200">
+            <span class="text-[10px] font-black text-[#c81e2b] block">01</span>
+            <span class="text-xs font-bold text-slate-800 block mt-1">入倉</span>
+            <span class="text-[9px] text-slate-500 block uppercase">Warehousing</span>
+          </div>
+
+          <div class="p-3 rounded-lg bg-slate-50 border border-slate-200">
+            <span class="text-[10px] font-black text-[#c81e2b] block">02</span>
+            <span class="text-xs font-bold text-slate-800 block mt-1">登記</span>
+            <span class="text-[9px] text-slate-500 block uppercase">Check-in</span>
+          </div>
+
+          <div class="p-3 rounded-lg bg-slate-50 border border-slate-200">
+            <span class="text-[10px] font-black text-[#c81e2b] block">03</span>
+            <span class="text-xs font-bold text-slate-800 block mt-1">掃碼</span>
+            <span class="text-[9px] text-slate-500 block uppercase">Scanning</span>
+          </div>
+
+          <div class="p-3 rounded-lg bg-slate-50 border border-slate-200">
+            <span class="text-[10px] font-black text-[#c81e2b] block">04</span>
+            <span class="text-xs font-bold text-slate-800 block mt-1">理貨</span>
+            <span class="text-[9px] text-slate-500 block uppercase">Sorting</span>
+          </div>
+
+          <div class="p-3 rounded-lg bg-slate-50 border border-slate-200">
+            <span class="text-[10px] font-black text-[#c81e2b] block">05</span>
+            <span class="text-xs font-bold text-slate-800 block mt-1">上架</span>
+            <span class="text-[9px] text-slate-500 block uppercase">Putaway</span>
+          </div>
+
+          <div class="p-3 rounded-lg bg-slate-50 border border-slate-200">
+            <span class="text-[10px] font-black text-[#c81e2b] block">06</span>
+            <span class="text-xs font-bold text-slate-800 block mt-1">分揀</span>
+            <span class="text-[9px] text-slate-500 block uppercase">Picking</span>
+          </div>
+
+          <div class="p-3 rounded-lg bg-slate-50 border border-slate-200">
+            <span class="text-[10px] font-black text-[#c81e2b] block">07</span>
+            <span class="text-xs font-bold text-slate-800 block mt-1">裝車</span>
+            <span class="text-[9px] text-slate-500 block uppercase">Loading</span>
+          </div>
+
+          <div class="p-3 rounded-lg bg-slate-50 border border-slate-200">
+            <span class="text-[10px] font-black text-[#c81e2b] block">08</span>
+            <span class="text-xs font-bold text-slate-800 block mt-1">出車</span>
+            <span class="text-[9px] text-slate-500 block uppercase">Dispatch</span>
+          </div>
+
+          <div class="p-3 rounded-lg bg-[#0a2540] text-white border border-[#0a2540]">
+            <span class="text-[10px] font-black text-red-400 block">09</span>
+            <span class="text-xs font-bold text-white block mt-1">回單管理</span>
+            <span class="text-[9px] text-slate-300 block uppercase">POD Mgmt</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- SECTION 4: 雙核心機制與三個確定交付結果 (SLIDE 5) -->
+    <section id="mechanisms" class="py-16 bg-slate-100 border-t border-slate-200 scroll-mt-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <div class="text-xs font-bold text-[#c81e2b] tracking-wider uppercase mb-2">DUAL-LINE SYNERGY • RELIABLE DELIVERY</div>
+          <h2 class="text-2xl sm:text-3xl font-black text-[#0a2540]">
+            兩個核心機制 • 三個確定交付結果
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 mt-2">
+            配備全新純電 FARIZON 遠程物流貨卡（車牌 UZ 9688），讓履約過程透明無盲區。
+          </p>
+        </div>
+
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-md overflow-hidden grid grid-cols-1 lg:grid-cols-12 items-center p-6 sm:p-10 gap-8">
+          
+          <!-- LEFT: 兩個核心機制 -->
+          <div class="lg:col-span-4 space-y-6">
+            <div>
+              <span class="text-xs font-bold text-[#c81e2b] tracking-wider uppercase">CORE MECHANISMS</span>
+              <h3 class="text-xl sm:text-2xl font-black text-[#0a2540] mt-1">兩個核心機制</h3>
+            </div>
+
+            <!-- MECHANISM 1 -->
+            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-[#c81e2b]"></span>
+                <h4 class="font-bold text-sm text-[#0a2540]">節點責任與狀態實時綁定</h4>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed pl-5">
+                操作即記錄，從手持掃描、庫位確認到司機出車，每一步驟均指派具體責任人，實現全程透明無盲區。
+              </p>
+            </div>
+
+            <!-- MECHANISM 2 -->
+            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-[#16325c]"></span>
+                <h4 class="font-bold text-sm text-[#0a2540]">偏差實時預警與攔截</h4>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed pl-5">
+                系統智能偵測路線擁堵、重量不符或超時節點，問題觸發告警，確保異常在擴散前被迅速鎖定與排除。
+              </p>
+            </div>
+          </div>
+
+          <!-- CENTER: FARIZON TRUCK IMAGE (FROM SLIDE 5) -->
+          <div class="lg:col-span-4 text-center">
+            <div class="rounded-2xl overflow-hidden bg-slate-50 p-2 border border-slate-100">
+              <img src="assets/farizon-truck.png" alt="FARIZON 遠程純電貨卡 UZ 9688" class="w-full object-contain mx-auto">
+            </div>
+            <div class="mt-3 text-xs font-bold text-slate-700">
+              堅強貨運全新 FARIZON 純電卡車 (UZ 9688)
+            </div>
+            <div class="text-[11px] text-emerald-600 font-semibold">
+              零碳綠色運輸 • 智能行車軌跡綁定
+            </div>
+          </div>
+
+          <!-- RIGHT: 三個確定交付結果 -->
+          <div class="lg:col-span-4 space-y-6">
+            <div>
+              <span class="text-xs font-bold text-emerald-600 tracking-wider uppercase">DELIVERY OUTCOMES</span>
+              <h3 class="text-xl sm:text-2xl font-black text-[#0a2540] mt-1">三個確定交付結果</h3>
+            </div>
+
+            <div class="space-y-4">
+              
+              <div class="flex items-start gap-3 bg-emerald-50/60 p-4 rounded-xl border border-emerald-200">
+                <div class="w-6 h-6 rounded-md bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+                  <i data-lucide="check" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h4 class="text-xs font-black text-slate-800">可複製的准時交付</h4>
+                  <p class="text-[11px] text-slate-600 mt-0.5">以 SOP 取代個人臨時決策，不受人員更迭影響，保持一致的超高準點率。</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 bg-emerald-50/60 p-4 rounded-xl border border-emerald-200">
+                <div class="w-6 h-6 rounded-md bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+                  <i data-lucide="check" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h4 class="text-xs font-black text-slate-800">持續降低的操作差錯率</h4>
+                  <p class="text-[11px] text-slate-600 mt-0.5">全鏈路條碼比對與雙重復核，將分揀與派送錯漏率壓降至極限。</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 bg-emerald-50/60 p-4 rounded-xl border border-emerald-200">
+                <div class="w-6 h-6 rounded-md bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+                  <i data-lucide="check" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h4 class="text-xs font-black text-slate-800">可供決策的全鏈數據</h4>
+                  <p class="text-[11px] text-slate-600 mt-0.5">即時生成數字化報表，讓庫存周轉、在途耗時與成本結構一目了然。</p>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: ACTION CTA -->
+    <section class="py-16 bg-[#0a2540] text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-2xl sm:text-3xl font-black mb-3">體驗確定性供應鏈帶來的商業競爭力</h2>
+        <p class="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto mb-8">
+          無論是常規日用品高頻補貨，抑或精密電子、冷鏈特殊適配，堅強貨運團隊隨時為您定制 SOP。
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <a href="services.html#quote-form" class="bg-[#c81e2b] hover:bg-[#b91c1c] text-white px-7 py-3 rounded-md text-xs sm:text-sm font-bold shadow-md transition active:scale-95">
+            索取專屬解決方案
+          </a>
+          <a href="facility.html" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 px-7 py-3 rounded-md text-xs sm:text-sm font-bold transition">
+            參觀葵涌智能倉
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#081a2e] text-slate-300 text-xs pt-12 pb-8 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <span class="text-lg font-black text-white">堅強貨運</span>
+          <span class="text-slate-400">KIN KEUNG TRANSPORTATION LTD.</span>
+        </div>
+        <div class="flex flex-wrap gap-6 text-slate-400">
+          <a href="index.html" class="hover:text-white transition">首頁</a>
+          <a href="services.html" class="hover:text-white transition">服務範圍</a>
+          <a href="solutions.html" class="text-white font-bold">解決方案與流程</a>
+          <a href="facility.html" class="hover:text-white transition">智能倉儲設施</a>
+          <a href="track.html" class="hover:text-white transition">貨件追蹤</a>
+          <a href="about.html" class="hover:text-white transition">關於我們</a>
+        </div>
+      </div>
+      <div class="pt-6 text-center text-slate-500 text-[11px]">
+        © 2024 堅強貨運有限公司 版權所有 • 香港新界元朗青山公路88號 貿易中心12樓1201室
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
