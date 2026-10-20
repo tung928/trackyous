@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>最新消息與企業動態 | 堅強貨運有限公司 KIN KEUNG TRANSPORTATION LTD.</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            corporate: {
+              navy: '#0a2540',
+              deep: '#0f2b48',
+              blue: '#16325c',
+              red: '#c81e2b',
+              redHover: '#b91c1c',
+              slate: '#64748b',
+              light: '#f8fafc'
+            }
+          },
+          fontFamily: {
+            sans: ['"Noto Sans TC"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+    .news-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .news-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 30px -10px rgba(10, 37, 64, 0.12);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-[#c81e2b] selection:text-white flex flex-col min-h-screen">
+
+  <!-- HEADER NAVIGATION -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- LOGO -->
+      <a href="index.html" class="flex items-center gap-3 group">
+        <svg class="w-9 h-9" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 8L20 8L12 32L0 32L8 8Z" fill="#c81e2b"/>
+          <path d="M18 8L30 8L22 32L10 32L18 8Z" fill="#16325c"/>
+          <path d="M28 8L40 8L32 32L20 32L28 8Z" fill="#0a2540"/>
+        </svg>
+        <div>
+          <div class="text-2xl font-black tracking-tight text-[#0a2540] leading-none">堅強貨運</div>
+          <div class="text-[9px] font-bold text-slate-600 tracking-wider uppercase mt-1">KIN KEUNG TRANSPORTATION LTD.</div>
+        </div>
+      </a>
+
+      <!-- NAVIGATION LINKS -->
+      <nav class="hidden xl:flex items-center space-x-7 text-sm font-semibold text-slate-700">
+        <a href="index.html" class="hover:text-[#c81e2b] transition">首頁</a>
+        <a href="services.html" class="hover:text-[#c81e2b] transition">服務範圍</a>
+        <a href="solutions.html" class="hover:text-[#c81e2b] transition">解決方案與流程</a>
+        <a href="facility.html" class="hover:text-[#c81e2b] transition">智能倉儲設施</a>
+        <a href="about.html" class="hover:text-[#c81e2b] transition">關於我們</a>
+        <a href="news.html" class="text-[#c81e2b] border-b-2 border-[#c81e2b] pb-1">最新消息</a>
+        <a href="contact.html" class="hover:text-[#c81e2b] transition">聯絡我們</a>
+      </nav>
+
+      <!-- RIGHT ACTIONS -->
+      <div class="flex items-center space-x-4">
+        <a href="contact.html#message-form" class="bg-[#c81e2b] hover:bg-[#b91c1c] text-white px-5 py-2.5 rounded-md text-sm font-bold shadow-sm transition active:scale-95">
+          取得報價
+        </a>
+        <a href="tel:+85224562797" class="hidden sm:flex items-center gap-1.5 text-xs font-bold text-slate-800 pl-2 border-l border-slate-200">
+          <i data-lucide="phone" class="w-3.5 h-3.5 text-[#c81e2b]"></i>
+          <span>+852 2456 2797</span>
+        </a>
+        <a href="driver.html" class="hidden md:inline-flex items-center gap-1 text-xs text-slate-500 hover:text-[#0a2540] border rounded px-2 py-1 bg-slate-50">
+          <i data-lucide="shield" class="w-3.5 h-3.5 text-blue-600"></i>
+          <span>司機/站所端</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-grow">
+
+    <!-- HERO SECTION -->
+    <section class="bg-gradient-to-r from-[#0a2540] via-[#0f2b48] to-[#16325c] text-white py-14 sm:py-18 relative overflow-hidden">
+      <div class="absolute -right-16 -bottom-16 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/20 text-red-300 border border-red-500/30 text-xs font-bold uppercase tracking-wider mb-4">
+          <i data-lucide="newspaper" class="w-3.5 h-3.5"></i>
+          <span>NEWS & ANNOUNCEMENTS</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black tracking-tight mb-4">
+          最新消息與企業動態
+        </h1>
+        <p class="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
+          掌握堅強貨運最新業務拓展、智慧倉儲設施升級、綠色環保車隊投入及行業榮譽認證，與您攜手見證現代智慧物流發展歷程。
+        </p>
+      </div>
+    </section>
+
+    <!-- NEWS HUB SECTION -->
+    <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- CATEGORY TABS -->
+      <div class="flex flex-wrap items-center gap-2 pb-8 border-b border-slate-200 mb-10 text-xs font-bold">
+        <button class="px-4 py-2 rounded-full bg-[#0a2540] text-white">全部消息 (4)</button>
+        <button class="px-4 py-2 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-[#c81e2b] hover:text-[#c81e2b] transition">業務拓展</button>
+        <button class="px-4 py-2 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-[#c81e2b] hover:text-[#c81e2b] transition">智慧倉儲</button>
+        <button class="px-4 py-2 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-[#c81e2b] hover:text-[#c81e2b] transition">綠色車隊</button>
+        <button class="px-4 py-2 rounded-full bg-white text-slate-700 border border-slate-200 hover:border-[#c81e2b] hover:text-[#c81e2b] transition">企業榮譽</button>
+      </div>
+
+      <!-- FEATURED NEWS (HERO CARD) -->
+      <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm mb-12 news-card">
+        <div class="grid grid-cols-1 lg:grid-cols-12">
+          <div class="lg:col-span-7 relative h-72 sm:h-96 lg:h-auto overflow-hidden bg-slate-100">
+            <img src="assets/farizon-truck.png" alt="全新純電 10T 貨卡投入營運" class="w-full h-full object-contain p-6 hover:scale-105 transition duration-500">
+            <span class="absolute top-4 left-4 bg-emerald-600 text-white text-[11px] font-black px-3 py-1 rounded-full uppercase tracking-wider">
+              最新焦點 • 綠色物流
+            </span>
+          </div>
+          <div class="lg:col-span-5 p-8 sm:p-10 flex flex-col justify-between">
+            <div class="space-y-4">
+              <div class="flex items-center gap-3 text-xs text-slate-400">
+                <span class="font-bold text-[#c81e2b]">ESG 零碳願景</span>
+                <span>•</span>
+                <span>2024-06-01</span>
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-black text-[#0a2540] hover:text-[#c81e2b] transition leading-snug">
+                <a href="news-4.html">全新純電 10T 貨卡及 EV VAN 車隊正式投入營運，助力客戶實現 ESG 減碳指標</a>
+              </h2>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                堅強貨運率先引進全新吉利遠程 FARIZON 純電卡車（車牌 UZ 9688）與輕型純電 VAN，並於葵涌智能倉內自主鋪設大功率直流充電樁，為跨國及本土企業提供具備 Scope 3 碳減排認證報告的綠色供應鏈方案。
+              </p>
+            </div>
+            <div class="pt-6 border-t border-slate-100 flex items-center justify-between">
+              <a href="news-4.html" class="inline-flex items-center gap-2 bg-[#c81e2b] hover:bg-[#b91c1c] text-white px-6 py-2.5 rounded-lg text-xs font-bold transition shadow-xs">
+                <span>閱讀全文</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </a>
+              <span class="text-xs text-slate-400">閱讀時間約 3 分鐘</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEWS GRID (3 ARTICLES) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- CARD 1 -->
+        <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm flex flex-col justify-between news-card">
+          <div>
+            <div class="relative h-52 bg-slate-100 overflow-hidden">
+              <img src="assets/news-1.png" alt="擴展東南亞服務網絡" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+              <span class="absolute top-3 left-3 bg-[#0a2540] text-white text-[10px] font-bold px-2.5 py-1 rounded-md">
+                業務拓展
+              </span>
+            </div>
+            <div class="p-6 space-y-3">
+              <div class="text-[11px] font-semibold text-slate-400">2024-05-20</div>
+              <h3 class="font-bold text-base text-[#0a2540] hover:text-[#c81e2b] transition leading-snug">
+                <a href="news-1.html">堅強貨運擴展東南亞服務網絡，打造大灣區至東盟海空物流走廊</a>
+              </h3>
+              <p class="text-xs text-slate-500 leading-relaxed line-clamp-3">
+                為滿足跨境貿易與製造業供應鏈轉移需求，堅強貨運正式擴展東南亞專線，覆蓋新加坡、馬來西亞、泰國及越南，提供全流程清關與拼箱一體化直達服務。
+              </p>
+            </div>
+          </div>
+          <div class="p-6 pt-0 border-t border-slate-100 mt-4 flex items-center justify-between">
+            <a href="news-1.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#c81e2b] hover:text-[#b91c1c] transition">
+              <span>閱讀詳細報道</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+            <span class="text-[11px] text-slate-400">業務快訊</span>
+          </div>
+        </article>
+
+        <!-- CARD 2 -->
+        <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm flex flex-col justify-between news-card">
+          <div>
+            <div class="relative h-52 bg-slate-100 overflow-hidden">
+              <img src="assets/news-2.png" alt="葵涌 ATL 智能倉儲啟用" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+              <span class="absolute top-3 left-3 bg-blue-700 text-white text-[10px] font-bold px-2.5 py-1 rounded-md">
+                設施升級
+              </span>
+            </div>
+            <div class="p-6 space-y-3">
+              <div class="text-[11px] font-semibold text-slate-400">2024-04-15</div>
+              <h3 class="font-bold text-base text-[#0a2540] hover:text-[#c81e2b] transition leading-snug">
+                <a href="news-2.html">葵涌 ATL 50,000+ 呎智能倉儲樞紐全面啟用，引進四柱橫梁立體貨架</a>
+              </h3>
+              <p class="text-xs text-slate-500 leading-relaxed line-clamp-3">
+                進駐亞洲貨櫃物流中心（ATL）A座核心區，配備 12 個高載能卸貨台、20 個貨櫃停靠台及 7 米樓底高位立體貨架，WMS 系統全面聯動，吞吐能力提升 150%。
+              </p>
+            </div>
+          </div>
+          <div class="p-6 pt-0 border-t border-slate-100 mt-4 flex items-center justify-between">
+            <a href="news-2.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#c81e2b] hover:text-[#b91c1c] transition">
+              <span>閱讀詳細報道</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+            <span class="text-[11px] text-slate-400">樞紐落成</span>
+          </div>
+        </article>
+
+        <!-- CARD 3 -->
+        <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm flex flex-col justify-between news-card">
+          <div>
+            <div class="relative h-52 bg-slate-100 overflow-hidden">
+              <img src="assets/news-3.png" alt="優質物流服務大獎" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+              <span class="absolute top-3 left-3 bg-amber-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-md">
+                企業榮譽
+              </span>
+            </div>
+            <div class="p-6 space-y-3">
+              <div class="text-[11px] font-semibold text-slate-400">2024-03-10</div>
+              <h3 class="font-bold text-base text-[#0a2540] hover:text-[#c81e2b] transition leading-snug">
+                <a href="news-3.html">堅強貨運榮獲 2024 年度「優質物流服務大獎」，準點履約率高達 99.8%</a>
+              </h3>
+              <p class="text-xs text-slate-500 leading-relaxed line-clamp-3">
+                憑藉軍事化紀律、標準化 9 大履約節點與持續低差錯率，堅強貨運深受中國郵政、HKTVmall、MINISO 等國際夥伴信賴，再度斬獲行業最高認證大獎。
+              </p>
+            </div>
+          </div>
+          <div class="p-6 pt-0 border-t border-slate-100 mt-4 flex items-center justify-between">
+            <a href="news-3.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#c81e2b] hover:text-[#b91c1c] transition">
+              <span>閱讀詳細報道</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+            <span class="text-[11px] text-slate-400">行業認證</span>
+          </div>
+        </article>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#081a2e] text-slate-300 text-xs pt-12 pb-8 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <span class="text-lg font-black text-white">堅強貨運</span>
+          <span class="text-slate-400">KIN KEUNG TRANSPORTATION LTD.</span>
+        </div>
+        <div class="flex flex-wrap gap-6 text-slate-400">
+          <a href="index.html" class="hover:text-white transition">首頁</a>
+          <a href="services.html" class="hover:text-white transition">服務範圍</a>
+          <a href="solutions.html" class="hover:text-white transition">解決方案與流程</a>
+          <a href="facility.html" class="hover:text-white transition">智能倉儲設施</a>
+          <a href="about.html" class="hover:text-white transition">關於我們</a>
+          <a href="news.html" class="text-white font-bold">最新消息</a>
+          <a href="contact.html" class="hover:text-white transition">聯絡我們</a>
+        </div>
+      </div>
+      <div class="pt-6 text-center text-slate-500 text-[11px]">
+        © 2024 堅強貨運有限公司 版權所有 • 香港新界葵涌3號貨櫃碼頭亞洲貨櫃物流中心A座7樓 7008-7009西翼 • 電話: +852 2456 2797 / 9788 8192
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
